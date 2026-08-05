@@ -614,7 +614,7 @@ function renderNav(activePage) {
         <span class="nav-logo-text">Sex</span>
         <img class="nav-logo-image" src="images/nearheader.png" alt="" loading="lazy">
       </a>
-      <span class="nav-glow-chip" aria-hidden="true">after dark</span>
+      <span class="nav-glow-chip" aria-hidden="true">夜 mode</span>
       <div class="nav-right">
         <a href="chat.html" class="nav-new nav-chat-link">chat</a>
         ${user ? `<a href="write.html" class="nav-new">+ new entry</a>` : ""}

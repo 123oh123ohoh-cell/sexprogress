@@ -654,7 +654,7 @@ async function localApiFetch(path, options = {}) {
 const SEED = {
   currentUser: null, // null = logged out
   users: [
-    { id: "u1", username: "mara", name: "Mara Studios", password: "demo1234", avatar: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=200&auto=format&fit=crop", joined: "2026-02-01", timezone: DEFAULT_TIMEZONE, following: [], followers: [], bio: "", badges: ["dexterity"] }
+    { id: "u1", username: "mara", name: "Mara Studios", password: "demo1234", avatar: "images/emoticoans/romantic.png", joined: "2026-02-01", timezone: DEFAULT_TIMEZONE, following: [], followers: [], bio: "Soft-lit, blush-forward, and happiest when the page feels warm enough to linger over. I like slow reveals, pink shadows, and a little tension in the margins.", badges: ["dexterity"] }
   ],
   posts: [
     {
@@ -765,6 +765,18 @@ function loadDB() {
       if (!existingMap.has(seedUser.username) || !existingMap.get(seedUser.username).password) {
         // Either user doesn't exist or is corrupted (missing password), so use seed data
         existingMap.set(seedUser.username, { ...seedUser });
+      } else if (seedUser.username === "mara") {
+        // Keep Mara's seeded persona/picture consistent even if an older
+        // local copy is already stored in the browser.
+        const current = existingMap.get(seedUser.username);
+        existingMap.set(seedUser.username, {
+          ...current,
+          name: seedUser.name,
+          avatar: seedUser.avatar,
+          bio: seedUser.bio,
+          timezone: current.timezone || seedUser.timezone,
+          badges: current.badges || seedUser.badges
+        });
       }
     }
     

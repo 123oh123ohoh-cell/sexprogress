@@ -47,6 +47,15 @@
       </div>`;
   }
 
+  function getPostFeatureImage(post) {
+    if (post && post.cover) return post.cover;
+    const fallbackNames = ["romantic", "kiss", "wonder", "sharkcat", "banana_hello"];
+    const seed = post && post.id ? String(post.id) : String(post && post.title ? post.title : "post");
+    let total = 0;
+    for (let i = 0; i < seed.length; i++) total += seed.charCodeAt(i);
+    return `images/emoticons/${fallbackNames[total % fallbackNames.length]}.png`;
+  }
+
   window.addEventListener("scroll", () => {
     const h = document.documentElement;
     const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
@@ -121,7 +130,9 @@
           <span>Written by <a class="username-link" href="user.html?id=${author ? author.id : ""}">@${post.author}</a></span>
         </div>
       </div>
-      ${post.cover ? `<img class="post-cover" src="${post.cover}" alt="">` : ""}
+      <div class="post-feature-image">
+        <img class="post-cover" src="${getPostFeatureImage(post)}" alt="Post image" loading="lazy">
+      </div>
       <article class="post-content">${renderMentionsInHTML(renderEmoticonsInHTML(post.content, "inline-emoticon"), "post-mention-link")}</article>
       <div class="post-footer">
         <button class="react-btn ${likedByMe ? "liked" : ""}" id="likeBtn">

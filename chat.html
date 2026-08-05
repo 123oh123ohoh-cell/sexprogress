@@ -538,6 +538,8 @@
   const GLOBAL_ROOM = "global";
   const HISTORY_LIMIT = 50;
   const ROLE_WEIGHTS_CLIENT = { owner: 5, moderator: 4, analyst: 3, email_writer: 2, tester: 1 };
+  const LOCAL_CHAT_INSTANCE = `${Math.random().toString(36).slice(2)}-${Date.now()}`;
+  const CHAT_BROADCAST_KEY = "progress-chat-broadcast";
 
   let socket = null;
   let reconnectDelay = 1000;
@@ -546,6 +548,10 @@
   let typingHintTimer = null;
   let lastTypingSent = 0;
   let seenMessageIds = new Set();
+  let chatChannel = null;
+  let presenceUsers = new Set();
+  let chatStorageReceiver = false;
+  let lastPresenceBroadcast = 0;
   let lastRenderedDateKey = null;
 
   // Grouping: track last appended message to collapse consecutive same-author messages
@@ -1021,137 +1027,82 @@
   function closeSocket() {
     manuallyClosed = true;
     if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
-    if (socket) { try { socket.close(); } catch (e) {} }
+    closeChatChannel();
     socket = null;
   }
 
-  function connectSocket() {
-    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
-    manuallyClosed = false;
-    setStatus("Connecting…", "connecting");
-
-    let ws;
-    try {
-      ws = new WebSocket(wsUrl(currentRoom));
-    } catch (e) {
-      setStatus("Can't connect", "offline");
-      scheduleReconnect();
-      return;
+  function openChatChannel() {
+    if (chatChannel || typeof window === "undefined") return;
+    if (window.BroadcastChannel) {
+      chatChannel = new BroadcastChannel("progress-chat");
+      chatChannel.addEventListener("message", event => {
+        handleChatBroadcast(event.data);
+      });
+    } else {
+      window.addEventListener("storage", handleChatStorageEvent);
+      chatStorageReceiver = true;
     }
-    socket = ws;
+    setStatus("Live", "online");
+    broadcastPresence();
+  }
 
-    ws.addEventListener("open", () => {
-      if (ws !== socket) return;
-      reconnectDelay = 1000;
-      setStatus("Live", "online");
-    });
+  function closeChatChannel() {
+    if (chatChannel) {
+      try { chatChannel.close(); } catch (e) {}
+      chatChannel = null;
+    }
+    if (chatStorageReceiver) {
+      window.removeEventListener("storage", handleChatStorageEvent);
+      chatStorageReceiver = false;
+    }
+  }
 
-    ws.addEventListener("message", async (event) => {
-      if (ws !== socket) return;
-      let data;
-      try { data = JSON.parse(event.data); } catch (e) { return; }
-      if (data.type === "message") {
-        const msg = data.message;
-        appendMessage(msg, true);
-        if (msg.author !== currentUser.username) {
-          if (getChatSoundEnabled()) {
-            new Audio("sounds/notification.mp3").play().catch(() => {});
-          }
-          if (document.hidden && getChatNotificationsEnabled()) {
-            maybeShowChatNotification(`New message from @${msg.author}`, msg.body || "Sent a message", location.href);
-          }
-        }
-        if (currentRoom.startsWith("dm:")) {
-          loadSidebar();
-          if (msg.author !== currentUser.username) {
-            _seenByPeer.set(currentRoom, msg.id);
-            updateSeenTicks();
-          }
-          if (msg.author === currentUser.username) updateSeenTicks();
-        }
-      } else if (data.type === "reaction") {
-        const el = document.querySelector(`.chat-msg[data-id="${data.messageId}"] .msg-reactions`);
-        if (el) {
-          const reactions = data.reactions || {};
-          const addBtn = `<button type="button" class="reaction-add-btn" data-msg-id="${data.messageId}" title="Add reaction">+</button>`;
-          const pills = Object.entries(reactions).map(([e, users]) => {
-            const isMine = users.includes(currentUser?.username);
-            return `<button type="button" class="reaction-pill${isMine ? " me" : ""}" data-msg-id="${data.messageId}" data-emoji="${escapeHTML(e)}" title="${escapeHTML(users.join(", "))}">${e} ${users.length}</button>`;
-          }).join("");
-          el.innerHTML = pills + addBtn;
-        }
-      } else if (data.type === "vote") {
-        const el = document.querySelector(`.chat-msg[data-id="${data.messageId}"] .poll-card`);
-        if (el) {
-          const votes = data.votes || {};
-          const totalVotes = Object.values(votes).reduce((s, arr) => s + arr.length, 0);
-          const myVote = Object.keys(votes).find(k => (votes[k] || []).includes(currentUser?.username));
-          el.querySelectorAll(".poll-option").forEach((btn, i) => {
-            const count = (votes[i] || []).length;
-            const pct = totalVotes > 0 ? Math.round(count / totalVotes * 100) : 0;
-            const voted = String(i) === String(myVote);
-            btn.classList.toggle("voted", voted);
-            const barEl = btn.querySelector(".poll-option-bar");
-            const pctEl = btn.querySelector(".poll-option-pct");
-            if (barEl) barEl.style.width = pct + "%";
-            if (pctEl) pctEl.textContent = myVote !== undefined ? pct + "%" : "";
-          });
-          const metaEl = el.querySelector(".poll-card-meta");
-          if (metaEl) metaEl.textContent = `${totalVotes} vote${totalVotes !== 1 ? "s" : ""}`;
-        }
-      } else if (data.type === "pin") {
-        updatePinnedBar(data.pinnedMsg);
-      } else if (data.type === "room-update") {
-        // Refresh room data (mod list changed etc.)
-        await loadChatRooms();
-        renderCommunitySidebar();
-      } else if (data.type === "presence") {
-        renderPresence(data.users);
-      } else if (data.type === "global-presence") {
-        applyGlobalPresence(data.statuses);
-      } else if (data.type === "typing") {
-        showTypingHint(data.username);
-      } else if (data.type === "dm-notify") {
-        // Pushed directly to this connection regardless of which room
-        // it's subscribed to - if it's for a different conversation than
-        // the one currently open, refresh the sidebar right away so the
-        // unread badge appears instantly instead of waiting for the next
-        // room switch.
-        if (data.room !== currentRoom) loadSidebar();
-      } else if (data.type === "notification") {
-        // chat.html doesn't open the shared presence socket app.js uses on
-        // every other page, so it needs its own handling of this too.
-        handleIncomingNotification(data.notification);
-      } else if (data.type === "call-offer" && data.from !== currentUser.username) {
-        handleCallOffer(data.from || data.username, data.sdp);
-      } else if (data.type === "call-answer" && data.from !== currentUser.username) {
-        handleCallAnswer(data.from || data.username, data.sdp);
-      } else if (data.type === "call-ice" && data.from !== currentUser.username) {
-        handleCallIce(data.candidate);
-      } else if (data.type === "call-reject" && data.from !== currentUser.username) {
-        showToast("Call declined.");
-        endCall(true);
-      } else if (data.type === "call-end" && data.from !== currentUser.username) {
-        endCall(true);
-      }
-    });
-
-    ws.addEventListener("close", () => {
-      if (ws !== socket || manuallyClosed) return;
-      setStatus("Reconnecting…", "offline");
-      scheduleReconnect();
-    });
-
-    ws.addEventListener("error", () => { ws.close(); });
+  function connectSocket() {
+    closeChatChannel();
+    openChatChannel();
   }
 
   function scheduleReconnect() {
-    if (reconnectTimer) return;
-    reconnectTimer = setTimeout(() => {
-      reconnectTimer = null;
-      connectSocket();
-    }, reconnectDelay);
-    reconnectDelay = Math.min(reconnectDelay * 2, 15000);
+    // No backend reconnection needed in frontend-only mode.
+  }
+
+  function handleChatStorageEvent(event) {
+    if (!event.key || !event.newValue || event.key !== CHAT_BROADCAST_KEY) return;
+    try {
+      const data = JSON.parse(event.newValue);
+      if (data.source === LOCAL_CHAT_INSTANCE) return;
+      handleChatBroadcast(data);
+    } catch (e) {}
+  }
+
+  function handleChatBroadcast(data) {
+    if (!data || data.source === LOCAL_CHAT_INSTANCE) return;
+    const type = data.type;
+    if (type === "message") {
+      if (data.message.room === currentRoom) appendMessage(data.message, true);
+      if (currentRoom.startsWith("dm:")) loadSidebar();
+    } else if (type === "typing") {
+      showTypingHint(data.username);
+    } else if (type === "presence") {
+      if (data.username) {
+        onlineStatuses.set(data.username, data.status || "online");
+        updatePresenceDots();
+        updateChatHeader();
+      } else if (data.statuses) {
+        applyGlobalPresence(data.statuses);
+      }
+    } else if (type === "dm-notify") {
+      if (data.room !== currentRoom) loadSidebar();
+    }
+  }
+
+  function broadcastChatEvent(type, payload) {
+    const event = { source: LOCAL_CHAT_INSTANCE, type, timestamp: Date.now(), ...payload };
+    if (chatChannel) {
+      try { chatChannel.postMessage(event); } catch (e) {}
+    } else if (typeof window !== "undefined") {
+      try { localStorage.setItem(CHAT_BROADCAST_KEY, JSON.stringify(event)); } catch (e) {}
+    }
   }
 
   async function loadHistory() {
@@ -1268,17 +1219,20 @@
       hideSongSearch();
     }
 
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify(payload));
-    } else {
-      apiFetch("/api/chat/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ room: currentRoom, author: currentUser.username, ...payload })
-      }).then(msg => {
-        if (msg) { appendMessage(msg, true); if (currentRoom.startsWith("dm:")) loadSidebar(); }
-      });
-    }
+    apiFetch("/api/chat/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ room: currentRoom, author: currentUser.username, ...payload })
+    }).then(msg => {
+      if (msg) {
+        appendMessage(msg, true);
+        broadcastChatEvent("message", { message: msg });
+        if (currentRoom.startsWith("dm:")) {
+          broadcastChatEvent("dm-notify", { room: currentRoom });
+          loadSidebar();
+        }
+      }
+    });
   }
 
   function sendGameMessage(gameData) {
@@ -1290,9 +1244,20 @@
       image: null,
       replyTo: null
     };
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify(payload));
-    }
+    apiFetch("/api/chat/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ room: currentRoom, author: currentUser.username, ...payload })
+    }).then(msg => {
+      if (msg) {
+        appendMessage(msg, true);
+        broadcastChatEvent("message", { message: msg });
+        if (currentRoom.startsWith("dm:")) {
+          broadcastChatEvent("dm-notify", { room: currentRoom });
+          loadSidebar();
+        }
+      }
+    });
   }
 
   // ── Reply context ────────────────────────────────────────────────────────────
@@ -2757,9 +2722,9 @@
 
     document.getElementById("chatInput").addEventListener("input", (e) => {
       const now = Date.now();
-      if (socket && socket.readyState === WebSocket.OPEN && now - lastTypingSent > 800) {
+      if (now - lastTypingSent > 800) {
         lastTypingSent = now;
-        socket.send(JSON.stringify({ type: "typing" }));
+        broadcastChatEvent("typing", { username: currentUser?.username });
       }
       // /song command: show search
       const val = e.target.value;
@@ -3114,7 +3079,13 @@
 
     // Fetch initial presence state
     apiFetch("/api/online-users").then(data => {
-      if (data && data.statuses) applyGlobalPresence(data.statuses);
+      if (data && data.statuses) {
+        applyGlobalPresence(data.statuses);
+      } else if (data && Array.isArray(data.users)) {
+        const statuses = {};
+        data.users.forEach(u => { statuses[u] = "online"; });
+        applyGlobalPresence(statuses);
+      }
     }).catch(() => {});
 
     updateChatHeader();
@@ -3126,9 +3097,8 @@
   function updateCallButtonVisibility() {
     const callBtn = document.getElementById("chatCallBtn");
     if (!callBtn) return;
-    const inDm = currentRoom && currentRoom.startsWith("dm:");
-    callBtn.style.display = inDm ? "flex" : "none";
-    callBtn.onclick = () => { if (currentPeer) startCall(currentPeer); };
+    callBtn.style.display = "none";
+    callBtn.onclick = null;
   }
 
   // ── DM Listen-Together compact banner ───────────────────────────────────

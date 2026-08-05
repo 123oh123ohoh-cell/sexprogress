@@ -1239,7 +1239,7 @@ function handleIncomingNotification(notification) {
 }
 
 function openPresenceSocket(activePage) {
-  if (activePage === "chat") return;
+  if (!API_ENABLED || activePage === "chat") return;
   const user = Progress.getCurrentUser();
   const token = getAuthToken();
   if (!user || !token) return;
@@ -1585,7 +1585,7 @@ function initShell(activePage) {
   attachNavScrollWatcher();
   openPresenceSocket(activePage);
   // Track page view (fire-and-forget, no auth required)
-  if (activePage && typeof API_BASE !== "undefined") {
+  if (API_ENABLED && activePage && typeof API_BASE !== "undefined") {
     fetch(`${API_BASE}/api/track/pageview`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

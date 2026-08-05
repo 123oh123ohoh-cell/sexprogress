@@ -23,11 +23,13 @@ const SIGNUP_BADGE_AWARDS = {
   trop: ["early_supporter", "trop", "dolphin_eat"],
   ohhmytesting: ["dexterity", "817x2", "dark", "tester"]
 };
-const API_ENABLED = true;
+const API_ENABLED = false;
+const CHAT_DB_KEY = "progress:chat:v1";
 // HTTP API base — uses relative URLs on production so requests go through
 // Vercel's global edge CDN (vercel.json rewrites /api/* → Render).
 // WebSocket connections (WS_BASE) must still hit Render directly since
-// Vercel cannot proxy WebSocket connections.
+// Vercel cannot proxy WebSocket connections. In frontend-only mode, these
+// values are not used.
 const API_BASE = (() => {
   if (typeof window === "undefined") return BACKEND_RENDER_URL;
   if (window.PROGRESS_API_BASE) return window.PROGRESS_API_BASE;
@@ -180,6 +182,11 @@ async function silentRelogin() {
 }
 
 async function apiFetch(path, options = {}, _retry = false) {
+  if (!API_ENABLED || String(path).startsWith("/api/")) {
+    const local = await localApiFetch(path, options);
+    if (!local || local.status >= 400) return null;
+    return local.data;
+  }
   try {
     let url = path;
     if (path.startsWith("/api/")) {
@@ -195,13 +202,9 @@ async function apiFetch(path, options = {}, _retry = false) {
     const res = await fetch(url, { ...options, headers, signal: controller.signal });
     clearTimeout(timeout);
 
-    // 401 = server rejected our token (expired, or Render restarted and
-    // regenerated its JWT secret). Try a silent re-login once; if that gets
-    // us a fresh token, replay the original request transparently.
     if (res.status === 401 && !_retry) {
       const refreshed = await silentRelogin();
       if (refreshed) return apiFetch(path, options, true);
-      // Couldn't get a fresh token - the user will need to log in manually.
       return null;
     }
 
@@ -220,6 +223,12 @@ async function apiFetch(path, options = {}, _retry = false) {
    (asleep/offline/slow) so they can show an accurate error instead of a
    misleading one. `status: 0` means the request never got a response. */
 async function apiFetchAuth(path, options = {}, timeoutMs = 8000) {
+  if (!API_ENABLED || String(path).startsWith("/api/")) {
+    const local = await localApiFetch(path, options);
+    if (!local) return { ok: false, status: 0, error: null };
+    if (local.status >= 400) return { ok: false, status: local.status || 0, error: local.error || null };
+    return { ok: true, status: local.status || 200, data: local.data };
+  }
   const url = path.startsWith("http://") || path.startsWith("https://") ? path : API_BASE + path;
   try {
     const controller = new AbortController();
@@ -240,6 +249,406 @@ async function apiFetchAuth(path, options = {}, timeoutMs = 8000) {
   } catch (e) {
     return { ok: false, status: 0, error: null };
   }
+}
+
+async function localApiFetch(path, options = {}) {
+  const method = (options.method || "GET").toUpperCase();
+  const rawPath = String(path).replace(/^\/?api\/?/, "").replace(/^\//, "");
+  const [resource, ...rest] = rawPath.split("/");
+  const params = new URLSearchParams((String(path).includes("?") ? String(path).split("?")[1] : ""));
+  const db = loadDB();
+  const currentUser = db.currentUser ? db.users.find(u => u.username === db.currentUser) : null;
+  const body = options.body ? JSON.parse(options.body) : null;
+
+  const makeResponse = (status, data, error = null) => ({ status, data, error });
+  const getUserByIdOrUsername = id => db.users.find(u => u.id === id || u.username === id);
+  const saveAndReturn = result => { saveDB(db); return makeResponse(200, result); };
+
+  function ensureChat() {
+    db.chat = db.chat || { rooms: [{ room: "global", label: "Global", topic: "Everyone", members: [] }], messages: [], invites: [] };
+    return db.chat;
+  }
+
+  if (resource === "login" && method === "POST") {
+    if (!body || !body.username || !body.password) return makeResponse(400, null, "Missing credentials");
+    const user = db.users.find(u => u.username.toLowerCase() === String(body.username).toLowerCase());
+    if (!user || user.password !== body.password) return makeResponse(401, null, "Invalid credentials");
+    db.currentUser = user.username;
+    setAuthToken("local-token");
+    saveDB(db);
+    return makeResponse(200, { token: "local-token", ...user });
+  }
+
+  if (resource === "users") {
+    if (method === "GET") {
+      if (params.has("username")) {
+        const match = db.users.filter(u => u.username.toLowerCase() === params.get("username").toLowerCase());
+        return makeResponse(200, match);
+      }
+      return makeResponse(200, db.users);
+    }
+    if (method === "POST") {
+      if (!body || !body.username || !body.name || !body.password) return makeResponse(400, null, "Missing fields");
+      const existing = db.users.find(u => u.username.toLowerCase() === body.username.toLowerCase());
+      if (existing) return makeResponse(409, null, "That username is already taken.");
+      const user = {
+        id: "u" + Date.now(),
+        username: String(body.username).toLowerCase(),
+        name: String(body.name),
+        password: String(body.password),
+        avatar: null,
+        joined: new Date().toISOString().slice(0, 10),
+        timezone: body.timezone || DEFAULT_TIMEZONE,
+        following: [],
+        followers: [],
+        bio: "",
+        badges: SIGNUP_BADGE_AWARDS[String(body.username).toLowerCase()] || []
+      };
+      db.users.push(user);
+      db.currentUser = user.username;
+      setAuthToken("local-token");
+      saveDB(db);
+      return makeResponse(200, { token: "local-token", ...user });
+    }
+    if (rest.length >= 1) {
+      const id = decodeURIComponent(rest[0]);
+      const user = getUserByIdOrUsername(id);
+      if (!user) return makeResponse(404, null, "User not found");
+      if (method === "GET") return makeResponse(200, user);
+      if (rest.length === 2 && rest[1] === "stats" && method === "GET") {
+        const postCount = (db.posts || []).filter(p => p.author === user.username).length;
+        const commentCount = (db.comments || []).filter(c => c.author === user.username).length;
+        return makeResponse(200, { posts: postCount, comments: commentCount, likes: (db.posts || []).filter(p => p.author === user.username).reduce((sum, p) => sum + (p.likes || 0), 0) });
+      }
+      if (method === "PATCH") {
+        if (!currentUser || currentUser.username !== user.username) return makeResponse(403, null, "Forbidden");
+        Object.assign(user, body || {});
+        saveDB(db);
+        return makeResponse(200, user);
+      }
+      if (method === "DELETE") {
+        if (!currentUser || currentUser.username !== user.username) return makeResponse(403, null, "Forbidden");
+        db.users = db.users.filter(u => u.username !== user.username);
+        db.posts = (db.posts || []).filter(p => p.author !== user.username);
+        db.comments = (db.comments || []).filter(c => c.author !== user.username);
+        db.notifications = (db.notifications || []).filter(n => n.recipient !== user.username);
+        if (db.currentUser === user.username) db.currentUser = null;
+        saveDB(db);
+        return makeResponse(200, { ok: true });
+      }
+    }
+  }
+
+  if (resource === "me") {
+    if (!currentUser) return makeResponse(401, null, "Not authenticated");
+    return makeResponse(200, currentUser);
+  }
+
+  if (resource === "posts") {
+    if (method === "GET") {
+      let posts = [...(db.posts || [])];
+      if (params.has("author")) {
+        const author = params.get("author").toLowerCase();
+        posts = posts.filter(p => p.author.toLowerCase() === author);
+      }
+      if (params.has("limit")) {
+        const limit = Number(params.get("limit"));
+        if (!Number.isNaN(limit) && limit > 0) posts = posts.slice(0, limit);
+      }
+      return makeResponse(200, posts.sort((a, b) => new Date(b.date) - new Date(a.date)));
+    }
+    if (method === "POST") {
+      if (!currentUser) return makeResponse(401, null, "Not authenticated");
+      const post = {
+        id: "p" + Date.now(),
+        author: currentUser.username,
+        title: body.title || "Untitled entry",
+        date: new Date().toISOString().slice(0, 10),
+        createdAt: new Date().toISOString(),
+        cover: body.cover || null,
+        excerpt: body.excerpt || "",
+        content: body.content || "",
+        likes: 0,
+        likedBy: []
+      };
+      db.posts = [post, ...(db.posts || [])];
+      saveDB(db);
+      return makeResponse(200, post);
+    }
+    if (rest.length >= 1) {
+      const postId = decodeURIComponent(rest[0]);
+      const post = (db.posts || []).find(p => p.id === postId);
+      if (!post) return makeResponse(404, null, "Post not found");
+      if (method === "GET") return makeResponse(200, post);
+      if (method === "DELETE") {
+        if (!currentUser || post.author !== currentUser.username) return makeResponse(403, null, "Forbidden");
+        db.posts = (db.posts || []).filter(p => p.id !== postId);
+        db.comments = (db.comments || []).filter(c => c.postId !== postId);
+        saveDB(db);
+        return makeResponse(200, { ok: true });
+      }
+      if (rest.length >= 2 && rest[1] === "comments") {
+        if (method === "GET") {
+          const comments = (db.comments || []).filter(c => c.postId === postId).sort((a, b) => new Date(a.time) - new Date(b.time));
+          return makeResponse(200, comments);
+        }
+        if (method === "POST") {
+          if (!currentUser) return makeResponse(401, null, "Not authenticated");
+          const comment = {
+            id: "c" + Date.now(),
+            postId,
+            author: currentUser.username,
+            body: body.body || "",
+            image: body.image || null,
+            time: new Date().toISOString()
+          };
+          db.comments = [...(db.comments || []), comment];
+          if (post.author !== currentUser.username) {
+            db.notifications = [{ id: "n" + Date.now(), type: "reply", actor: currentUser.username, postId, postTitle: post.title, body: comment.body, recipient: post.author, time: new Date().toISOString(), seen: false }, ...(db.notifications || [])];
+          }
+          saveDB(db);
+          return makeResponse(200, comment);
+        }
+      }
+      if (rest.length >= 2 && rest[1] === "like" && method === "POST") {
+        if (!currentUser) return makeResponse(401, null, "Not authenticated");
+        const who = currentUser.username;
+        const idx = post.likedBy.indexOf(who);
+        if (idx === -1) {
+          post.likedBy.push(who);
+          post.likes = (post.likes || 0) + 1;
+          if (post.author !== who) {
+            db.notifications = [{ id: "n" + Date.now(), type: "like", actor: who, postId, postTitle: post.title, recipient: post.author, time: new Date().toISOString(), seen: false }, ...(db.notifications || [])];
+          }
+        } else {
+          post.likedBy.splice(idx, 1);
+          post.likes = Math.max(0, (post.likes || 1) - 1);
+        }
+        saveDB(db);
+        return makeResponse(200, post);
+      }
+    }
+  }
+
+  if (resource === "bookmarks") {
+    db.bookmarks = db.bookmarks || [];
+    if (!currentUser) return makeResponse(401, null, "Not authenticated");
+    if (rest.length === 0 && method === "GET") {
+      return makeResponse(200, (db.bookmarks || []).map(postId => db.posts.find(p => p.id === postId)).filter(Boolean));
+    }
+    if (rest.length === 1 && rest[0] === "status" && method === "GET") {
+      return makeResponse(200, { bookmarked: false });
+    }
+    if (rest.length === 1 && method === "POST") {
+      const postId = decodeURIComponent(rest[0]);
+      const idx = (db.bookmarks || []).indexOf(postId);
+      if (idx === -1) {
+        db.bookmarks.push(postId);
+      } else {
+        db.bookmarks.splice(idx, 1);
+      }
+      saveDB(db);
+      return makeResponse(200, { bookmarked: idx === -1 });
+    }
+    if (rest.length === 2 && rest[1] === "status" && method === "GET") {
+      const postId = decodeURIComponent(rest[0]);
+      return makeResponse(200, { bookmarked: (db.bookmarks || []).includes(postId) });
+    }
+  }
+
+  if (resource === "notifications") {
+    if (!currentUser) return makeResponse(401, null, "Not authenticated");
+    if (method === "GET") {
+      const recipient = params.get("recipient");
+      const result = (db.notifications || []).filter(n => !recipient || n.recipient === recipient);
+      return makeResponse(200, result);
+    }
+    if (rest.length === 1 && method === "DELETE") {
+      const id = decodeURIComponent(rest[0]);
+      db.notifications = (db.notifications || []).filter(n => n.id !== id);
+      saveDB(db);
+      return makeResponse(200, { ok: true });
+    }
+    if (rest.length === 0 && method === "POST" && String(path).includes("mark-seen")) {
+      (db.notifications || []).forEach(n => { if (!n.recipient || n.recipient === currentUser.username) n.seen = true; });
+      saveDB(db);
+      return makeResponse(200, { ok: true });
+    }
+  }
+
+  if (resource === "chat") {
+    const chat = ensureChat();
+    if (rest.length === 1 && rest[0] === "conversations" && method === "GET") {
+      const convs = [];
+      const dmMessages = chat.messages.filter(m => m.room.startsWith("dm:") && (m.room.includes(currentUser.username + ":") || m.author === currentUser.username));
+      const rooms = new Map();
+      dmMessages.forEach(msg => {
+        const [_, a, b] = msg.room.split(":");
+        const peer = a === currentUser.username ? b : b === currentUser.username ? a : null;
+        if (!peer) return;
+        const key = msg.room;
+        const existing = rooms.get(key) || { room: key, with: peer, lastMessage: null, unreadCount: 0 };
+        if (!existing.lastMessage || new Date(msg.time) > new Date(existing.lastMessage.time)) existing.lastMessage = msg;
+        rooms.set(key, existing);
+      });
+      return makeResponse(200, Array.from(rooms.values()));
+    }
+    if (rest.length === 1 && rest[0] === "rooms") {
+      if (method === "GET") return makeResponse(200, chat.rooms);
+      if (method === "POST") {
+        const roomId = body.name || `room-${Date.now()}`;
+        const existing = chat.rooms.find(r => r.room === roomId || r.label === body.label);
+        if (existing) return makeResponse(409, null, "Room already exists");
+        const room = { room: roomId, label: body.label || roomId, topic: body.topic || "", members: [currentUser?.username].filter(Boolean), pinnedMsg: null, inviteCode: null, communityMods: [], owner: currentUser?.username || null };
+        chat.rooms.push(room);
+        saveDB(db);
+        return makeResponse(200, room);
+      }
+    }
+    if (rest.length >= 2) {
+      const roomId = decodeURIComponent(rest[0]);
+      const room = chat.rooms.find(r => r.room === roomId);
+      if (!room) return makeResponse(404, null, "Room not found");
+      if (rest[1] === "join" && method === "POST") {
+        if (currentUser && !room.members.includes(currentUser.username)) room.members.push(currentUser.username);
+        saveDB(db);
+        return makeResponse(200, { ok: true });
+      }
+      if (rest[1] === "leave" && method === "POST") {
+        if (currentUser) room.members = room.members.filter(u => u !== currentUser.username);
+        saveDB(db);
+        return makeResponse(200, { ok: true });
+      }
+      if (rest[1] === "invite" && method === "POST") {
+        const code = `invite-${Math.random().toString(36).slice(2, 8)}`;
+        chat.invites.push({ code, room: room.room, expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000 });
+        saveDB(db);
+        return makeResponse(200, { code });
+      }
+      if (rest[1] === "members" && method === "GET") {
+        return makeResponse(200, { members: room.members, communityMods: room.communityMods || [], owner: room.owner || null });
+      }
+      if (rest[1] === "pin") {
+        if (method === "POST") {
+          room.pinnedMsg = body.pinnedMsg || null;
+          saveDB(db);
+          return makeResponse(200, { ok: true });
+        }
+        if (method === "DELETE") {
+          room.pinnedMsg = null;
+          saveDB(db);
+          return makeResponse(200, { ok: true });
+        }
+      }
+      if (rest[1] === "members" && method === "GET") {
+        return makeResponse(200, { members: room.members, communityMods: room.communityMods || [], owner: room.owner || null });
+      }
+      if (rest[1] === "delete" && method === "DELETE") {
+        chat.rooms = chat.rooms.filter(r => r.room !== roomId);
+        chat.messages = chat.messages.filter(m => m.room !== roomId);
+        saveDB(db);
+        return makeResponse(200, { ok: true });
+      }
+    }
+    if (rest.length === 1 && rest[0] === "messages") {
+      if (method === "GET") {
+        const room = params.get("room") || "global";
+        let messages = chat.messages.filter(m => m.room === room);
+        if (params.has("before")) {
+          const before = new Date(params.get("before"));
+          messages = messages.filter(m => new Date(m.time) < before);
+        }
+        messages = messages.sort((a, b) => new Date(a.time) - new Date(b.time));
+        return makeResponse(200, messages.slice(-50));
+      }
+      if (method === "POST") {
+        if (!currentUser) return makeResponse(401, null, "Not authenticated");
+        const message = {
+          id: "m" + Date.now() + Math.random().toString(36).slice(2, 5),
+          room: body.room || "global",
+          author: currentUser.username,
+          body: body.body || "",
+          image: body.image || null,
+          type: body.msgType || "message",
+          songData: body.songData || null,
+          replyTo: body.replyTo || null,
+          votes: {},
+          reactions: {},
+          time: new Date().toISOString()
+        };
+        chat.messages.push(message);
+        saveDB(db);
+        return makeResponse(200, message);
+      }
+    }
+    if (rest.length === 2 && rest[0] === "messages") {
+      const messageId = decodeURIComponent(rest[1]);
+      const message = chat.messages.find(m => m.id === messageId);
+      if (!message) return makeResponse(404, null, "Message not found");
+      if (rest[2] === "react" && method === "POST") {
+        const emoji = body.emoji;
+        if (!emoji) return makeResponse(400, null, "Missing emoji");
+        message.reactions = message.reactions || {};
+        message.reactions[emoji] = message.reactions[emoji] || [];
+        const idx = message.reactions[emoji].indexOf(currentUser.username);
+        if (idx === -1) message.reactions[emoji].push(currentUser.username);
+        else message.reactions[emoji].splice(idx, 1);
+        saveDB(db);
+        return makeResponse(200, { ok: true, reactions: message.reactions });
+      }
+      if (rest[2] === "vote" && method === "POST") {
+        const opt = String(body.vote);
+        message.votes = message.votes || {};
+        Object.entries(message.votes).forEach(([key, voters]) => {
+          message.votes[key] = voters.filter(u => u !== currentUser.username);
+        });
+        message.votes[opt] = message.votes[opt] || [];
+        message.votes[opt].push(currentUser.username);
+        saveDB(db);
+        return makeResponse(200, { ok: true, votes: message.votes });
+      }
+    }
+  }
+
+  if (resource === "chat" && rest.length === 1 && rest[0] === "mark-read" && method === "POST") {
+    if (!currentUser) return makeResponse(401, null, "Not authenticated");
+    // Mark all messages in room as read for this user in local state.
+    // This is only used for DM unread indicators.
+    return makeResponse(200, { ok: true });
+  }
+
+  if (resource === "upload-image" && method === "POST") {
+    if (!body || !body.image) return makeResponse(400, null, "Missing image data");
+    // In frontend-only mode, keep the image as a data URL so it can be rendered locally.
+    return makeResponse(200, { url: body.image });
+  }
+
+  if (resource === "storage-upload-url" && method === "POST") {
+    if (!body || !body.filename) return makeResponse(400, null, "Missing filename");
+    const uploadUrl = `data:application/octet-stream,local-upload-${encodeURIComponent(body.filename)}`;
+    const publicUrl = uploadUrl;
+    return makeResponse(200, { uploadUrl, publicUrl });
+  }
+
+  if (resource === "online-users") {
+    const statuses = currentUser ? { [currentUser.username]: "online" } : {};
+    return makeResponse(200, { users: currentUser ? [currentUser.username] : [], statuses });
+  }
+
+  if (resource === "invite") {
+    const code = rest[0];
+    const invite = (loadDB().chat?.invites || []).find(i => i.code === code);
+    if (!invite) return makeResponse(404, null, "Invite not found");
+    if (method === "POST") {
+      const room = loadDB().chat.rooms.find(r => r.room === invite.room);
+      if (room && currentUser && !room.members.includes(currentUser.username)) room.members.push(currentUser.username);
+      saveDB(db);
+      return makeResponse(200, { ok: true });
+    }
+    return makeResponse(200, { room: invite.room, label: loadDB().chat.rooms.find(r => r.room === invite.room)?.label || "" });
+  }
+
+  return makeResponse(404, null, "Not implemented");
 }
 
 const SEED = {
@@ -305,6 +714,8 @@ function loadDB() {
     const cookieUser = getCurrentUserCookie();
     const base = JSON.parse(JSON.stringify(SEED));
     if (cookieUser) base.currentUser = cookieUser;
+    base.bookmarks = [];
+    base.chat = { rooms: [{ room: "global", label: "Global", topic: "Everyone", members: [] }], messages: [], invites: [] };
     try { localStorage.setItem(DB_KEY, JSON.stringify(base)); } catch (e) {}
     return base;
   }
@@ -342,6 +753,8 @@ function loadDB() {
       badges: u.badges || [],
       displayBadge: u.displayBadge || null
     }));
+    parsed.bookmarks = parsed.bookmarks || [];
+    parsed.chat = parsed.chat || JSON.parse(JSON.stringify(SEED.chat));
 
     if (parsed.currentUser) {
       const currentUser = parsed.users.find(u => u.username === parsed.currentUser);
@@ -388,19 +801,18 @@ function loadDB() {
 }
 
 function saveDB(db) {
-  // Only save minimal data locally: currentUser and user list.
-  // Posts/comments/notifications come from API to avoid localStorage quota issues.
+  // Save durable local state, including auth, users, posts, comments, notifications,
+  // bookmarks, and chat so the full frontend-only app persists across reloads.
   const minimalDb = {
     currentUser: db.currentUser,
     users: db.users,
-    posts: [],
-    comments: [],
-    notifications: []
+    posts: db.posts || [],
+    comments: db.comments || [],
+    notifications: db.notifications || [],
+    bookmarks: db.bookmarks || [],
+    chat: db.chat || { rooms: [{ room: "global", label: "Global", topic: "Everyone", members: [] }], messages: [], invites: [] }
   };
   try { localStorage.setItem(DB_KEY, JSON.stringify(minimalDb)); } catch (e) {}
-  // Mirror currentUser in a cookie so the session survives Safari ITP clearing
-  // localStorage, and so standalone (home-screen) mode shares the session with
-  // the Safari browser on the same device.
   setCurrentUserCookie(db.currentUser || null);
 }
 

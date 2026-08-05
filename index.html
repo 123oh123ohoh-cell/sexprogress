@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sexprogress — a sultry journal for your late-night creations</title>
-<meta property="og:site_name" content="Sexprogress">
+<title>Sex</title>
+<meta property="og:site_name" content="Sex">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://progressing.online/index.html">
-<meta property="og:title" content="Sexprogress — a sultry journal for your late-night creations">
+<meta property="og:title" content="Sex">
 <meta property="og:description" content="A velvet-soft, toybox-charged space for sexy ideas, rose-scented edits, and confessions that crave a second read.">
 <meta property="og:image" content="https://progressing.online/images/nearheader.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sexprogress — a sultry journal for your late-night creations">
+<meta name="twitter:title" content="Sex">
 <meta name="twitter:description" content="A velvet-soft, toybox-charged space for sexy ideas, rose-scented edits, and confessions that crave a second read.">
 <meta name="twitter:image" content="https://progressing.online/images/nearheader.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,6 +101,241 @@
   transition: transform .15s cubic-bezier(.34,1.56,.64,1);
 }
 @media (hover:hover) { .efc-cta:hover { transform: scale(1.06); } }
+
+.home-hero {
+  position: relative;
+  margin: 6px 0 22px;
+  padding: 26px 22px 22px;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(255, 134, 185, 0.42), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(255, 48, 150, 0.28), transparent 30%),
+    linear-gradient(180deg, rgba(255, 249, 252, 0.96), rgba(255, 233, 244, 0.98));
+  border: 1px solid rgba(255, 122, 181, 0.22);
+  box-shadow: 0 22px 60px rgba(107, 23, 70, 0.12);
+}
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, rgba(255,255,255,.26), transparent 35%, rgba(255,255,255,.08));
+  pointer-events: none;
+}
+.home-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 18px;
+  align-items: stretch;
+}
+.home-hero-copy h1 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(34px, 7vw, 58px);
+  line-height: .98;
+  color: var(--ink);
+}
+.home-hero-copy .hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .6);
+  border: 1px solid rgba(255, 122, 181, .18);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--mocha);
+}
+.home-hero-copy p {
+  margin: 0 0 10px;
+  max-width: 52ch;
+  color: var(--mocha-dark);
+  font-size: 16px;
+}
+.home-hero-copy .hero-note {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--mocha);
+}
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.home-hero-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(95, 16, 59, .15);
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 8px 20px rgba(107, 23, 70, 0.08);
+}
+.home-hero-action.primary {
+  background: linear-gradient(135deg, #ff4fa5, #ff2f9f 55%, #db4d93);
+  color: #fff;
+  border-color: transparent;
+}
+.home-hero-art {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 12px;
+}
+.home-hero-art-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.home-hero-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  min-height: 122px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(255, 122, 181, 0.18);
+  box-shadow: 0 10px 26px rgba(107, 23, 70, 0.08);
+}
+.home-hero-frame img,
+.home-hero-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.home-hero-frame .label {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: rgba(20, 8, 15, .56);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+.home-hero-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.home-hero-pill {
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.56);
+  border: 1px solid rgba(255, 122, 181, .16);
+  box-shadow: 0 8px 18px rgba(107, 23, 70, 0.06);
+}
+.home-hero-pill strong {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.home-hero-pill span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.feed-header {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  padding-bottom: 4px;
+}
+.feed-header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(28px, 6vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.feed-header p {
+  margin: 0;
+  max-width: 62ch;
+}
+.feed-header .subline {
+  color: var(--mocha);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-style: italic;
+}
+.feed-header .sexy-hint {
+  padding-left: 14px;
+  border-left: 2px solid rgba(255, 47, 159, .28);
+  color: var(--muted);
+}
+
+.feed-tabs {
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(255, 122, 181, .16);
+  box-shadow: 0 10px 24px rgba(107, 23, 70, 0.06);
+  backdrop-filter: blur(8px);
+}
+.feed-tab-btn.active {
+  background: linear-gradient(135deg, #ff4fa5, #ff2f9f);
+  color: #fff;
+}
+
+.entry {
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 122, 181, .18);
+  box-shadow: 0 14px 36px rgba(107, 23, 70, 0.08);
+}
+.entry-body {
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,247,251,.98));
+}
+.entry-title .underline {
+  background-image: linear-gradient(transparent 72%, rgba(255, 87, 164, .26) 0);
+}
+.entry-meta {
+  color: var(--mocha);
+}
+.entry-excerpt {
+  color: var(--mocha-dark);
+}
+.entry-thumb {
+  border-radius: 0;
+  border-left: 1px solid rgba(255, 122, 181, .16);
+}
+.entry-thumb img,
+.entry-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 720px) {
+  .home-hero-inner { grid-template-columns: 1fr; }
+  .home-hero-strip { grid-template-columns: 1fr; }
+  .home-hero-art-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 <body>
@@ -109,11 +344,40 @@
 <div id="modal-root"></div>
 
 <main class="container">
+  <section class="home-hero">
+    <div class="home-hero-inner">
+      <div class="home-hero-copy">
+        <div class="hero-kicker">soft focus / high heat / slow bloom</div>
+        <h1>Make progress blush.</h1>
+        <p>A glossy, rose-lit journal for late-night edits, intimate momentum, and a feed that feels more like a velvet room than a checklist.</p>
+        <p class="hero-note">The new posts are still clever, but now they look like they know how to lean in.</p>
+        <div class="home-hero-actions">
+          <a class="home-hero-action primary" href="write.html">Write something hot</a>
+          <a class="home-hero-action" href="explore.html">Browse the feed</a>
+          <a class="home-hero-action" href="chat.html">Open chat</a>
+        </div>
+      </div>
+      <div class="home-hero-art">
+        <div class="home-hero-art-grid">
+          <div class="home-hero-frame"><img src="images/emoticoans/preview.jpg" alt="Emoticoans cover preview"><div class="label">Soft blush</div></div>
+          <div class="home-hero-frame"><video src="images/emoticoans/6a0c778ea2d204.73156998.mp4" autoplay muted loop playsinline preload="metadata"></video><div class="label">Slow motion</div></div>
+          <div class="home-hero-frame"><img src="images/emoticoans/rs_fit_1280_720.avif" alt="Emoticoans banner"><div class="label">Velvet line</div></div>
+          <div class="home-hero-frame"><video src="images/emoticoans/6a05fdfaedb470.93319321.mp4" controls muted loop playsinline preload="metadata"></video><div class="label">Looped tease</div></div>
+        </div>
+        <div class="home-hero-strip">
+          <div class="home-hero-pill"><strong>Gloss</strong><span>Sharper contrast, warmer shadows, stronger glow.</span></div>
+          <div class="home-hero-pill"><strong>Motion</strong><span>Video tiles make the feed feel alive before you scroll.</span></div>
+          <div class="home-hero-pill"><strong>Flirt</strong><span>More suggestive tone, but still tasteful and readable.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <header class="feed-header">
-    <h1><img class="header-icon" src="images/etc1.png" alt="Sexprogress icon"> Sexprogress <span class="hero-emoji">💋�🍒💗🍭</span></h1>
-    <p>Whisper your deepest ideas, feather-light fixes, and sensual progress in a page that feels like a rose-petal secret and a toybox tease.</p>
-    <p class="subline">A velvet-bound diary for pulse-racing momentum, intimate experiments, and glittering after-dark curiosity.</p>
-    <p class="sexy-hint">Heart-shaped hues, rose-flushed glow, and every entry written to be stroked again.</p>
+    <h1><img class="header-icon" src="images/etc1.png" alt="Sex icon"> Sex <span class="hero-emoji">💗🍒✨</span></h1>
+    <p>Whisper your ideas into a feed that looks polished, plush, and a little dangerous.</p>
+    <p class="subline">Every entry gets the spotlight, the blush, and the kind of styling that makes it feel worth reading twice.</p>
+    <p class="sexy-hint">Soft shadows. Glossy cards. Bright emoticon artwork. A little more heat without losing the elegance.</p>
   </header>
 
   <!-- Category tabs — only rendered when the feature is enabled in settings -->
@@ -243,7 +507,7 @@
           </div>
           <div class="live-readers" id="lv-${p.id}"></div>
         </div>
-        ${p.cover ? `<div class="entry-thumb"><img src="${p.cover}" alt="" loading="lazy"></div>` : ""}
+        ${p.cover ? `<div class="entry-thumb">${renderCoverMedia(p.cover, { className: "entry-cover-media", alt: "", videoAutoplay: true, videoMuted: true, videoLoop: true, videoPlaysInline: true, loading: "lazy" })}</div>` : ""}
       </div>`;
     }).join("");
 

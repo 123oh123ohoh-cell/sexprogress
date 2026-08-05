@@ -660,45 +660,80 @@ const SEED = {
     {
       id: "p1",
       author: "mara",
-      title: "Slowing down the shipping cadence, on purpose",
+      title: "Velvet pacing, on purpose",
       date: "2026-06-28",
-      cover: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop",
-      excerpt: "For a year I measured progress in commits. This month I started measuring it in questions I stopped asking too early.",
-      content: "<p>For a year I measured progress in commits. This month I started measuring it in questions I stopped asking too early.</p><p>The habit crept in quietly. Every sprint became a race to close tickets, and every retro became a scoreboard. It worked, in the sense that the graphs went up and to the right. But somewhere in there the work stopped teaching me anything.</p><h2>What changed</h2><p>I started leaving one hour a week with nothing scheduled. Not a break, not admin time &mdash; just space to sit with a problem before reaching for the obvious fix.</p><blockquote>The fastest way to solve the wrong problem is still the wrong problem, just faster.</blockquote><p>Three weeks in, the backlog looks about the same. But two of the last four decisions I made were ones I would have gotten wrong under the old pace.</p>",
+      cover: "images/emoticoans/preview.jpg",
+      excerpt: "A slower rhythm made the whole page feel hotter, softer, and easier to lean into.",
+      content: "<p>I used to treat progress like a race. This month I let it drape over the page instead.</p><p>When I stopped forcing momentum, the work started to feel more intimate. Each decision had a little more pause, a little more polish, and a lot less panic.</p><h2>What changed</h2><p>I left one quiet hour open every week. Not for admin, not for cleanup &mdash; just enough room for a thought to blush before I rushed to answer it.</p><blockquote>Sometimes the most seductive move is the one that waits an extra breath.</blockquote><p>That tiny delay changed everything. The backlog is still there, but the choices feel smoother now, like they were meant to be read under a softer light.</p>",
       likes: 12,
       likedBy: []
     },
     {
       id: "p2",
       author: "mara",
-      title: "A small kitchen table, rebuilt from a door",
+      title: "A table with a little heat in it",
       date: "2026-06-14",
-      cover: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1200&auto=format&fit=crop",
-      excerpt: "The old door had six coats of paint on it. Underneath was oak nobody had seen since 1974.",
-      content: "<p>The old door had six coats of paint on it. Underneath was oak nobody had seen since 1974.</p><p>Stripping it took longer than building the frame. That felt backwards until I remembered most restoration is like that &mdash; the removing is the real work, the assembling is just the reward for finishing it.</p><h2>The joints</h2><p>I used simple lap joints instead of anything fancier. Nobody will ever see them, and that's sort of the point of a kitchen table.</p><p>It wobbled for exactly one afternoon before I found the short leg. Now it's the steadiest thing in the house.</p>",
+      cover: "images/emoticoans/rs_fit_1280_720.avif",
+      excerpt: "Old paint, warm wood, and a finish that looked almost too pretty to touch.",
+      content: "<p>The old door had six coats of paint on it. Underneath was oak with a glow that felt almost secret.</p><p>Stripping it took longer than building the frame. That kind of slow reveal has its own charm &mdash; the kind that keeps you looking a little longer than you meant to.</p><h2>The joints</h2><p>I used simple lap joints instead of anything dramatic. There is something delicious about a thing being sturdy and beautiful without trying too hard.</p><p>It wobbled for exactly one afternoon before I found the short leg. Now it sits there with a very composed little confidence.</p>",
       likes: 27,
       likedBy: []
     },
     {
       id: "p3",
       author: "mara",
-      title: "Notes from a week of only handwritten drafts",
+      title: "Handwritten drafts and a softer blush",
       date: "2026-05-30",
-      cover: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200&auto=format&fit=crop",
-      excerpt: "No backspace key for seven days. It changed which sentences I was willing to start.",
-      content: "<p>No backspace key for seven days. It changed which sentences I was willing to start.</p><p>On a screen, a bad sentence costs nothing &mdash; you delete it and move on. On paper, a bad sentence costs a scratched-out line staring back at you, so you think a little longer before committing to one.</p><p>I'm not going back to longhand permanently. But I'm keeping the pause.</p>",
+      cover: "images/emoticoans/12.jpg",
+      excerpt: "Writing by hand made every sentence feel a little more tender, a little less rushed.",
+      content: "<p>No backspace key for seven days and suddenly every sentence mattered more.</p><p>On a screen, a clumsy line disappears before it can embarrass you. On paper, it lingers just enough to make you slow down, smooth your edges, and choose the next line with a little more care.</p><p>That pause was the whole point. The drafts got softer, the tone got warmer, and I found myself writing like I wanted the page to blush back.</p>",
       likes: 8,
+      likedBy: []
+    },
+    {
+      id: "p4",
+      author: "mara",
+      title: "A loop with a warmer pulse",
+      date: "2026-07-25",
+      cover: "images/emoticoans/6a0c778ea2d204.73156998.mp4",
+      excerpt: "A moving cover gave the page a little extra pulse and a lot more allure.",
+      content: "<p>This started as a motion test and ended up feeling like a flirtatious little entrance.</p><p>I wanted the front of the journal to breathe instead of sit there politely, so I kept the loop tight and let the movement do the teasing.</p><p>The result is simple: a bit of glow, a bit of rhythm, and a page that feels more awake the moment it opens.</p>",
+      likes: 5,
+      likedBy: []
+    },
+    {
+      id: "p5",
+      author: "mara",
+      title: "A second cut for the same late-night thought",
+      date: "2026-07-18",
+      cover: "images/emoticoans/6a05fdfaedb470.93319321.mp4",
+      excerpt: "Different loop, same soft-focus energy, just a little more flirty around the edges.",
+      content: "<p>Some edits only make sense once you hear them back a few times, like a line delivered with the right pause.</p><p>This is the quieter pass: less polish, more atmosphere, and enough movement to keep the page feeling warm instead of flat.</p><p>It is the kind of clip that stays in the background and still manages to change the whole room.</p>",
+      likes: 9,
+      likedBy: []
+    },
+    {
+      id: "p6",
+      author: "mara",
+      title: "The archive after dark",
+      date: "2026-07-11",
+      cover: "images/emoticoans/6a05fdfaedb470.93319321 - Copy.mp4",
+      excerpt: "I kept one more video because the still frame was too polite to carry the mood.",
+      content: "<p>There is always one version that looks finished before it really feels finished.</p><p>Then a different clip shows up and makes the whole stack feel softer, stranger, and a little more magnetic.</p><p>That is what this copy is for: a quieter echo that still deserves the front of the page.</p>",
+      likes: 3,
       likedBy: []
     }
   ],
   comments: [],
   notifications: [
-    { id: "n1", type: "like", actor: "jonah_p", postId: "p2", postTitle: "A small kitchen table, rebuilt from a door", time: "2026-07-04T09:12:00", seen: false },
-    { id: "n2", type: "reply", actor: "wren.codes", postId: "p1", postTitle: "Slowing down the shipping cadence, on purpose", body: "This is exactly the permission I needed to hear today.", time: "2026-07-03T21:40:00", seen: false },
-    { id: "n3", type: "like", actor: "delia", postId: "p1", postTitle: "Slowing down the shipping cadence, on purpose", time: "2026-07-02T14:05:00", seen: false },
+    { id: "n1", type: "like", actor: "jonah_p", postId: "p2", postTitle: "A table with a little heat in it", time: "2026-07-04T09:12:00", seen: false },
+    { id: "n2", type: "reply", actor: "wren.codes", postId: "p1", postTitle: "Velvet pacing, on purpose", body: "This is exactly the permission I needed to hear today.", time: "2026-07-03T21:40:00", seen: false },
+    { id: "n3", type: "like", actor: "delia", postId: "p1", postTitle: "Velvet pacing, on purpose", time: "2026-07-02T14:05:00", seen: false },
     { id: "n4", type: "follow", actor: "sam_writes", time: "2026-06-30T08:00:00", seen: true }
   ]
 };
+
+const SEED_POST_INDEX = new Map(SEED.posts.map(post => [post.id, post]));
 
 function loadDB() {
   let raw = null;
@@ -744,7 +779,8 @@ function loadDB() {
       followers: u.followers || [],
       bio: u.bio || ""
     }));
-    parsed.posts = parsed.posts || [];
+    parsed.posts = (parsed.posts || []).filter(post => !SEED_POST_INDEX.has(post.id));
+    parsed.posts = [...SEED.posts.map(post => ({ ...post })), ...parsed.posts];
     parsed.notifications = parsed.notifications || [];
     parsed.comments = parsed.comments || [];
     parsed.currentUser = parsed.currentUser || null;

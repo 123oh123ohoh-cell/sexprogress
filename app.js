@@ -495,6 +495,45 @@ function renderEmoticonsText(text, cssClass = "inline-emoticon") {
   return renderEmoticonsInHTML(escapeHTML(text || ""), cssClass);
 }
 
+function isVideoAsset(src) {
+  if (!src || typeof src !== "string") return false;
+  const clean = src.split(/[?#]/)[0];
+  return /\.(mp4|webm|mov|mkv|avi|wmv|ogv)$/i.test(clean);
+}
+
+function renderCoverMedia(src, options = {}) {
+  if (!src) return "";
+  const {
+    className = "cover-media",
+    alt = "",
+    videoControls = false,
+    videoAutoplay = false,
+    videoMuted = true,
+    videoLoop = true,
+    videoPlaysInline = true,
+    loading = "lazy"
+  } = options;
+
+  const safeSrc = escapeHTML(encodeURI(src));
+  const safeAlt = escapeHTML(alt || "");
+
+  if (isVideoAsset(src)) {
+    const attrs = [
+      `class="${className}"`,
+      `src="${safeSrc}"`,
+      videoControls ? "controls" : "",
+      videoAutoplay ? "autoplay" : "",
+      videoMuted ? "muted" : "",
+      videoLoop ? "loop" : "",
+      videoPlaysInline ? "playsinline" : "",
+      "preload=\"metadata\""
+    ].filter(Boolean).join(" ");
+    return `<video ${attrs}></video>`;
+  }
+
+  return `<img class="${className}" src="${safeSrc}" alt="${safeAlt}" loading="${loading}">`;
+}
+
 function renderMentionsInHTML(html, cssClass = "mention-link") {
   if (!html) return "";
 
@@ -572,9 +611,10 @@ function renderNav(activePage) {
   root.innerHTML = `
     <nav class="nav">
       <a href="index.html" class="nav-title">
-        <span class="nav-logo-text">progress<span class="dot">.</span></span>
+        <span class="nav-logo-text">Sex</span>
         <img class="nav-logo-image" src="images/nearheader.png" alt="" loading="lazy">
       </a>
+      <span class="nav-glow-chip" aria-hidden="true">after dark</span>
       <div class="nav-right">
         <a href="chat.html" class="nav-new nav-chat-link">chat</a>
         ${user ? `<a href="write.html" class="nav-new">+ new entry</a>` : ""}
@@ -1467,7 +1507,7 @@ function _showSplash() {
   el.innerHTML =
     '<div class="pwa-splash-inner">' +
       '<img src="/images/nearheader.png" class="pwa-splash-logo" alt="">' +
-      '<div class="pwa-splash-word">progress<span class="pwa-splash-dot">.</span></div>' +
+      '<div class="pwa-splash-word">Sex</div>' +
     '</div>';
   document.body.appendChild(el);
   const hide = () => { el.classList.add("pwa-splash-hide"); setTimeout(() => el.remove(), 400); };

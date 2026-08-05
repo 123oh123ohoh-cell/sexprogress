@@ -1398,7 +1398,8 @@ app.get("/og/:id", asyncHandler(async (req, res) => {
   const SITE = "https://progressing.online";
   const title = (post.title || "Progress").replace(/"/g, "&quot;");
   const description = (post.excerpt || "").replace(/<[^>]+>/g, "").replace(/"/g, "&quot;").slice(0, 200);
-  const ogImage = post.cover || `${SITE}/api/posts/${post._id}/og.svg`;
+  const isVideoCover = src => /\.(mp4|webm|mov|mkv|avi|wmv|ogv)(?:[?#].*)?$/i.test(src || "");
+  const ogImage = post.cover && !isVideoCover(post.cover) ? post.cover : `${SITE}/api/posts/${post._id}/og.svg`;
   const postUrl = `${SITE}/post.html?id=${post._id}`;
   res.setHeader("Content-Type", "text/html; charset=utf-8");
   res.send(`<!DOCTYPE html><html><head>

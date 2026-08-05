@@ -80,7 +80,7 @@
               <span class="entry-author" style="margin-left:12px;">${avatarHTML(author, 22)}<a class="username-link" href="user.html?id=${author ? author.id : ""}">@${escapeHTML(p.author)}</a></span>
             </div>
           </div>
-          ${p.cover ? `<div class="entry-thumb"><img src="${p.cover}" alt="" loading="lazy"></div>` : ""}
+          ${p.cover ? `<div class="entry-thumb">${renderCoverMedia(p.cover, { className: "entry-cover-media", alt: "", videoAutoplay: true, videoMuted: true, videoLoop: true, videoPlaysInline: true, loading: "lazy" })}</div>` : ""}
         </div>`;
     }).join("") : `<p style="color:var(--muted); font-size:14px; padding:12px 0;">No trending posts yet — publish something!</p>`;
 

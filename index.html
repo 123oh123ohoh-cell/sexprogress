@@ -68,8 +68,8 @@
 @keyframes efc-pulse {
   0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.7); }
   70%  { box-shadow: 0 0 0 5px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
 }
-.main-landing-hide, main.container { display: none; }
 .efc-emoji { font-size: 26px; line-height: 1; flex-shrink: 0; }
 .efc-title {
   font-family: var(--font-display); font-size: clamp(17px,3.5vw,22px);
@@ -101,181 +101,12 @@
   transition: transform .15s cubic-bezier(.34,1.56,.64,1);
 }
 @media (hover:hover) { .efc-cta:hover { transform: scale(1.06); } }
-
-.emoticon-strip {
-  margin: 18px 0 26px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
-}
-.emoticon-tile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 20px;
-  background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,244,248,.95));
-  border: 1px solid rgba(255, 174, 200, .28);
-  box-shadow: 0 12px 28px rgba(121, 58, 79, .08);
-}
-.emoticon-tile img {
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-.emoticon-tile div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.emoticon-tile strong {
-  font-size: 13px;
-  color: var(--ink);
-}
-.emoticon-tile span {
-  font-size: 11px;
-  color: var(--muted);
-}
 </style>
 </head>
 <body>
 
 <div id="nav-root"></div>
 <div id="modal-root"></div>
-
-<main class="landing-shell">
-  <section class="landing-hero">
-    <div>
-      <div class="landing-kicker">pink, private, a little dangerous</div>
-      <h1 class="landing-title">Make progress <span class="accent">blush</span>.</h1>
-      <p class="landing-copy">Sexprogress is now a rose-lit, emoticon-rich landing page for soft confessions, playful momentum, and the kind of internet energy that feels satin-smooth instead of sterile.</p>
-      <div class="landing-actions">
-        <a class="landing-btn landing-btn-primary" href="signup.html">Start your page</a>
-        <a class="landing-btn landing-btn-secondary" href="chat.html">Open chat</a>
-        <a class="landing-btn landing-btn-secondary" href="write.html">Write something</a>
-      </div>
-      <div class="landing-meta-row">
-        <span class="landing-chip">Blush-heavy palette</span>
-        <span class="landing-chip">Soft glass cards</span>
-        <span class="landing-chip">Emoticon gallery</span>
-        <span class="landing-chip">Rose glow everywhere</span>
-      </div>
-    </div>
-
-    <div class="landing-panel">
-      <div class="landing-collage">
-        <div class="landing-frame tall">
-          <video src="images/emoticoans/6a0c778ea2d204.73156998.mp4" class="landing-video" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
-          <div class="label">Soft motion</div>
-        </div>
-        <div class="landing-stack">
-          <div class="landing-frame">
-            <img src="images/emoticoans/rs_fit_1280_720.avif" alt="Wide blush-toned banner from the emoticoans folder">
-            <div class="label">Velvet banner</div>
-          </div>
-          <div class="landing-mini-grid">
-            <div class="landing-frame">
-              <video src="images/emoticoans/6a05fdfaedb470.93319321.mp4" class="landing-video" controls muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
-              <div class="label">Loop cut</div>
-            </div>
-            <div class="landing-frame">
-              <img src="images/emoticoans/12.jpg" alt="Another emoticoans image with a soft pink mood">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="landing-grid" aria-label="What this site feels like now">
-    <article class="landing-card full">
-      <h2 class="section-title">A sweeter front door</h2>
-      <p class="section-copy">The old feed got pushed aside so the homepage can lean fully into pink mood, warm lighting, and a calmer, more seductive presentation. The content now invites people in instead of dumping them into a wall of posts.</p>
-    </article>
-
-    <article class="landing-card">
-      <h2 class="section-title">Why it works</h2>
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-icon">💗</div>
-          <div>
-            <h3>Blush first</h3>
-            <p>The page uses layered pink gradients, soft glass panels, and rose highlights instead of plain white space.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">✨</div>
-          <div>
-            <h3>Emoticon-forward</h3>
-            <p>Images from the emoticoans folder and the emoticon library are now part of the visible design.</p>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article class="landing-card">
-      <h2 class="section-title">Suggested paths</h2>
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-icon">🖊️</div>
-          <div>
-            <h3>Write</h3>
-            <p>Jump into the editor and give the new look something worth showing off.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">💬</div>
-          <div>
-            <h3>Chat</h3>
-            <p>Open the conversation space if you want the site to feel more alive.</p>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <article class="landing-card full">
-      <h2 class="section-title">Emoticon moodboard</h2>
-      <p class="section-copy">These little icons keep the site feeling playful, glossy, and a touch flirtatious.</p>
-      <div class="mood-grid" id="emoticonShelf"></div>
-    </article>
-
-    <article class="landing-card full">
-      <h2 class="section-title">Jump back in</h2>
-      <div class="path-grid">
-        <div class="path-card">
-          <span class="emoji">🖋️</span>
-          <h3>Write</h3>
-          <p>Draft something tender, loud, or weirdly pretty.</p>
-          <a href="write.html">Open editor →</a>
-        </div>
-        <div class="path-card">
-          <span class="emoji">💌</span>
-          <h3>Chat</h3>
-          <p>Talk in the pink-tinted chat rooms and keep the atmosphere alive.</p>
-          <a href="chat.html">Enter chat →</a>
-        </div>
-        <div class="path-card">
-          <span class="emoji">🪞</span>
-          <h3>Explore</h3>
-          <p>Browse the community and find the pages that match your mood.</p>
-          <a href="explore.html">Explore more →</a>
-        </div>
-        <div class="path-card">
-          <span class="emoji">📱</span>
-          <h3>Install</h3>
-          <p>Turn the site into a home-screen app so it stays close by.</p>
-          <a href="install.html">Install now →</a>
-        </div>
-      </div>
-    </article>
-
-    <div class="footer-note landing-card full" style="grid-column: span 12; margin-top: 0;">
-      The homepage is now intentionally all blush, gloss, and image-led. If you want, I can take the same pink treatment through the other pages next.
-    </div>
-  </section>
-</main>
 
 <main class="container">
   <header class="feed-header">
@@ -284,8 +115,6 @@
     <p class="subline">A velvet-bound diary for pulse-racing momentum, intimate experiments, and glittering after-dark curiosity.</p>
     <p class="sexy-hint">Heart-shaped hues, rose-flushed glow, and every entry written to be stroked again.</p>
   </header>
-
-  <section class="emoticon-strip" id="emoticonStrip" aria-label="Featured emoticon images"></section>
 
   <!-- Category tabs — only rendered when the feature is enabled in settings -->
   <div id="feedTabsWrap" style="display:none;">
@@ -364,27 +193,6 @@
       <span style="font-size:18px;">🔥</span>
       <span><strong style="color:var(--ink);">${me.streak}-day streak</strong></span>
     </div>`;
-  }
-
-  function renderEmoticonStrip() {
-    const strip = document.getElementById("emoticonShelf") || document.getElementById("emoticonStrip");
-    if (!strip) return;
-    const featured = ["romantic", "kiss", "sharkcat", "wonder"];
-    const labels = {
-      romantic: "Romantic",
-      kiss: "Kiss",
-      sharkcat: "Shark Cat",
-      wonder: "Wonder"
-    };
-    strip.innerHTML = featured.map(name => `
-      <div class="emoticon-tile">
-        <img src="images/emoticons/${name}.png" alt="${escapeHTML(labels[name] || name)} emoticon" loading="lazy">
-        <div>
-          <strong>${escapeHTML(labels[name] || name)}</strong>
-          <span>From the asset set</span>
-        </div>
-      </div>
-    `).join("");
   }
 
   // ── Feed rendering ─────────────────────────────────────────────────────────
@@ -543,19 +351,16 @@
   async function start() {
     const ready = initShell("feed");
     initCategoryTabs();
-    renderEmoticonStrip();
     renderFeed();
     renderStreakBanner();
     renderEventBanner();
     // Re-render as soon as posts arrive (before users finish loading)
     window.addEventListener("progress:posts-loaded", () => {
-      renderEmoticonStrip();
       renderFeed();
       _lastPostCount = Progress.getPosts().length;
     }, { once: true });
     ready.then(() => {
       initCategoryTabs();
-      renderEmoticonStrip();
       renderFeed();
       renderStreakBanner();
       _lastPostCount = Progress.getPosts().length;

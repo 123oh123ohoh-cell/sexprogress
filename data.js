@@ -662,9 +662,9 @@ const SEED = {
       author: "mara",
       title: "Slowing down the shipping cadence, on purpose",
       date: "2026-06-28",
-      cover: "images/emoticons/romantic.png",
+      cover: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop",
       excerpt: "For a year I measured progress in commits. This month I started measuring it in questions I stopped asking too early.",
-      content: "<p><img src='images/emoticons/romantic.png' alt='romantic emoticon' style='display:block;max-width:180px;width:100%;margin:0 auto 18px;'></p><p>For a year I measured progress in commits. This month I started measuring it in questions I stopped asking too early.</p><p>The habit crept in quietly. Every sprint became a race to close tickets, and every retro became a scoreboard. It worked, in the sense that the graphs went up and to the right. But somewhere in there the work stopped teaching me anything.</p><figure class='post-video-wrap'><video class='post-video' controls preload='metadata' src='images/emoticoans/6a0c778ea2d204.73156998.mp4'></video></figure><h2>What changed</h2><p>I started leaving one hour a week with nothing scheduled. Not a break, not admin time &mdash; just space to sit with a problem before reaching for the obvious fix.</p><blockquote>The fastest way to solve the wrong problem is still the wrong problem, just faster.</blockquote><p><img src='images/emoticons/sharkcat.png' alt='sharkcat emoticon' style='display:block;max-width:160px;width:100%;margin:18px auto;'></p><p>Three weeks in, the backlog looks about the same. But two of the last four decisions I made were ones I would have gotten wrong under the old pace.</p>",
+      content: "<p>For a year I measured progress in commits. This month I started measuring it in questions I stopped asking too early.</p><p>The habit crept in quietly. Every sprint became a race to close tickets, and every retro became a scoreboard. It worked, in the sense that the graphs went up and to the right. But somewhere in there the work stopped teaching me anything.</p><h2>What changed</h2><p>I started leaving one hour a week with nothing scheduled. Not a break, not admin time &mdash; just space to sit with a problem before reaching for the obvious fix.</p><blockquote>The fastest way to solve the wrong problem is still the wrong problem, just faster.</blockquote><p>Three weeks in, the backlog looks about the same. But two of the last four decisions I made were ones I would have gotten wrong under the old pace.</p>",
       likes: 12,
       likedBy: []
     },
@@ -673,9 +673,9 @@ const SEED = {
       author: "mara",
       title: "A small kitchen table, rebuilt from a door",
       date: "2026-06-14",
-      cover: "images/emoticons/kiss.png",
+      cover: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1200&auto=format&fit=crop",
       excerpt: "The old door had six coats of paint on it. Underneath was oak nobody had seen since 1974.",
-      content: "<p>The old door had six coats of paint on it. Underneath was oak nobody had seen since 1974.</p><p><img src='images/emoticons/kiss.png' alt='kiss emoticon' style='display:block;max-width:160px;width:100%;margin:14px auto 18px;'></p><p>Stripping it took longer than building the frame. That felt backwards until I remembered most restoration is like that &mdash; the removing is the real work, the assembling is just the reward for finishing it.</p><figure class='post-video-wrap'><video class='post-video' controls preload='metadata' src='images/emoticoans/6a05fdfaedb470.93319321.mp4'></video></figure><h2>The joints</h2><p>I used simple lap joints instead of anything fancier. Nobody will ever see them, and that's sort of the point of a kitchen table.</p><p><img src='images/emoticons/wonder.png' alt='wonder emoticon' style='display:block;max-width:160px;width:100%;margin:18px auto;'></p><p>It wobbled for exactly one afternoon before I found the short leg. Now it's the steadiest thing in the house.</p>",
+      content: "<p>The old door had six coats of paint on it. Underneath was oak nobody had seen since 1974.</p><p>Stripping it took longer than building the frame. That felt backwards until I remembered most restoration is like that &mdash; the removing is the real work, the assembling is just the reward for finishing it.</p><h2>The joints</h2><p>I used simple lap joints instead of anything fancier. Nobody will ever see them, and that's sort of the point of a kitchen table.</p><p>It wobbled for exactly one afternoon before I found the short leg. Now it's the steadiest thing in the house.</p>",
       likes: 27,
       likedBy: []
     },
@@ -684,9 +684,9 @@ const SEED = {
       author: "mara",
       title: "Notes from a week of only handwritten drafts",
       date: "2026-05-30",
-      cover: "images/emoticons/wonder.png",
+      cover: "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200&auto=format&fit=crop",
       excerpt: "No backspace key for seven days. It changed which sentences I was willing to start.",
-      content: "<p><img src='images/emoticons/wonder.png' alt='wonder emoticon' style='display:block;max-width:160px;width:100%;margin:0 auto 18px;'></p><p>No backspace key for seven days. It changed which sentences I was willing to start.</p><p>On a screen, a bad sentence costs nothing &mdash; you delete it and move on. On paper, a bad sentence costs a scratched-out line staring back at you, so you think a little longer before committing to one.</p><figure class='post-video-wrap'><video class='post-video' controls preload='metadata' src='images/emoticoans/6a05fdfaedb470.93319321 - Copy.mp4'></video></figure><p><img src='images/emoticons/banana_hello.png' alt='banana hello emoticon' style='display:block;max-width:150px;width:100%;margin:18px auto;'></p><p>I'm not going back to longhand permanently. But I'm keeping the pause.</p>",
+      content: "<p>No backspace key for seven days. It changed which sentences I was willing to start.</p><p>On a screen, a bad sentence costs nothing &mdash; you delete it and move on. On paper, a bad sentence costs a scratched-out line staring back at you, so you think a little longer before committing to one.</p><p>I'm not going back to longhand permanently. But I'm keeping the pause.</p>",
       likes: 8,
       likedBy: []
     }

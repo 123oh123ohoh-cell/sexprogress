@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sex</title>
-<meta property="og:site_name" content="Sex">
+<title>Progress</title>
+<meta property="og:site_name" content="Progress">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://progressing.online/post.html">
-<meta property="og:title" content="Sex">
+<meta property="og:title" content="Progress">
 <meta property="og:description" content="Read what's being made, fixed, and figured out — one entry at a time.">
 <meta property="og:image" content="https://progressing.online/images/nearheader.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sex">
+<meta name="twitter:title" content="Progress">
 <meta name="twitter:description" content="Read what's being made, fixed, and figured out — one entry at a time.">
 <meta name="twitter:image" content="https://progressing.online/images/nearheader.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,13 +45,6 @@
         <h3>This entry doesn't exist</h3>
         <p><a href="index.html" style="text-decoration:underline;">Back to the journal</a></p>
       </div>`;
-  }
-
-  function getOgImage(post) {
-    if (!post || !post.cover || isVideoAsset(post.cover)) {
-      return `${location.origin}/api/posts/${post.id}/og.svg`;
-    }
-    return post.cover;
   }
 
   window.addEventListener("scroll", () => {
@@ -106,7 +99,7 @@
     // Update OG/social meta so direct links share real data
     const SITE = location.origin;
     const ogUrl = `${SITE}/og/${post.id}`;
-    const ogImage = getOgImage(post);
+    const ogImage = post.cover && !isVideoCoverUrl(post.cover) ? post.cover : `${SITE}/api/posts/${post.id}/og.svg`;
     const ogDesc = (post.excerpt || "").replace(/<[^>]+>/g, "").slice(0, 200);
     document.title = `${post.title} — Progress`;
     const setMeta = (sel, val) => { const el = document.querySelector(sel); if (el) el.setAttribute("content", val); };
@@ -128,7 +121,7 @@
           <span>Written by <a class="username-link" href="user.html?id=${author ? author.id : ""}">@${post.author}</a></span>
         </div>
       </div>
-      ${post.cover ? renderCoverMedia(post.cover, { className: "post-cover", alt: "Post cover", videoControls: true, videoAutoplay: false, videoMuted: false, videoLoop: false, videoPlaysInline: true, loading: "metadata" }) : ""}
+      ${post.cover ? renderCoverMedia(post.cover, { className: "post-cover", alt: "", videoControls: true, videoMuted: true, videoLoop: true, videoPlaysInline: true, videoPreload: "metadata" }) : ""}
       <article class="post-content">${renderMentionsInHTML(renderEmoticonsInHTML(post.content, "inline-emoticon"), "post-mention-link")}</article>
       <div class="post-footer">
         <button class="react-btn ${likedByMe ? "liked" : ""}" id="likeBtn">

@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Browse Users — Progress</title>
+<title>Community — Sex</title>
+<meta property="og:site_name" content="Sex">
+<meta property="og:title" content="Community — Sex">
+<meta property="og:description" content="Browse suggestive placeholder communities and creator profiles.">
+<meta property="og:image" content="https://progressing.online/images/nearheader.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Community — Sex">
+<meta name="twitter:description" content="Browse suggestive placeholder communities and creator profiles.">
+<meta name="twitter:image" content="https://progressing.online/images/nearheader.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -27,8 +35,16 @@
   <div id="contentContainer" style="display:none;">
     <div style="margin-top:40px; margin-bottom:40px;">
       <h1 style="font-family:var(--font-display); font-size:32px; margin-bottom:12px;">Community</h1>
-      <p style="color:var(--muted); font-size:16px;">Browse writers and follow their journeys</p>
+      <p style="color:var(--muted); font-size:16px;">Browse soft-focus circles, hush-hush rooms, and the creators behind them</p>
     </div>
+
+    <section style="margin-bottom:28px;">
+      <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:14px;">
+        <h2 style="font-family:var(--font-display); font-size:22px; margin:0;">Featured communities</h2>
+        <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted);">placeholder circles</span>
+      </div>
+      <div id="communityPills" class="community-pills"></div>
+    </section>
 
     <div id="usersDirectory" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px;"></div>
   </div>
@@ -44,6 +60,38 @@
   const passwordInput = document.getElementById("directoryPassword");
   const submitBtn = document.getElementById("submitPassword");
   const passwordError = document.getElementById("passwordError");
+  const communityPills = document.getElementById("communityPills");
+
+  const PLACEHOLDER_COMMUNITIES = [
+    {
+      name: "Velvet Night",
+      slug: "velvet-night",
+      blurb: "Soft replies, late scrolls, and a little glow around the edges.",
+      media: { type: "image", src: "images/emoticoans/69ded0b5db8a7d1ef0aaeb4f.jpg", alt: "Velvet Night preview" },
+      members: "1.2k"
+    },
+    {
+      name: "Pink Static",
+      slug: "pink-static",
+      blurb: "For people who like their feed glossy, loud, and blush-forward.",
+      media: { type: "video", src: "images/emoticoans/6a0c778ea2d204.73156998 - Copy.mp4", alt: "Pink Static teaser" },
+      members: "842"
+    },
+    {
+      name: "Moonlit Room",
+      slug: "moonlit-room",
+      blurb: "A low-lit placeholder for whispered posts and lingering attention.",
+      media: { type: "image", src: "images/emoticoans/69e9649f7d96736a341dbffc.jpg", alt: "Moonlit Room banner" },
+      members: "3.4k"
+    },
+    {
+      name: "Afterglow Circle",
+      slug: "afterglow-circle",
+      blurb: "Warm, suggestive, and built for the kind of conversations that stay open.",
+      media: { type: "image", src: "images/emoticoans/69e091e3db8a7d1ef0090cd9.jpg", alt: "Afterglow Circle teaser" },
+      members: "629"
+    }
+  ];
 
   function hasAccountAccess() {
     const user = Progress.getCurrentUser();
@@ -54,6 +102,7 @@
     if (hasAccountAccess() || sessionStorage.getItem("directoryAuth") === "true") {
       authContainer.style.display = "none";
       contentContainer.style.display = "block";
+      renderPlaceholderCommunities();
       renderUsers();
     } else {
       authContainer.style.display = "block";
@@ -79,6 +128,32 @@
   });
 
   const root = document.getElementById("usersDirectory");
+
+  function renderPlaceholderCommunities() {
+    if (!communityPills) return;
+    communityPills.innerHTML = PLACEHOLDER_COMMUNITIES.map((community, index) => {
+      const accent = ["#ff84d8", "#ff2f9f", "#f2c86d", "#c65d9a"][index % 4];
+      const mediaHTML = community.media.type === "video"
+        ? `<video src="${community.media.src}" autoplay muted loop playsinline preload="metadata" aria-label="${community.media.alt}"></video>`
+        : `<img src="${community.media.src}" alt="${community.media.alt}" loading="lazy">`;
+      return `
+        <article class="community-pill" style="--community-accent:${accent};">
+          <div class="community-pill-media">${mediaHTML}</div>
+          <div class="community-pill-copy">
+            <div class="community-pill-top">
+              <h3>${community.name}</h3>
+              <span>${community.members} members</span>
+            </div>
+            <p>${community.blurb}</p>
+            <div class="community-pill-tags">
+              <span>soft-focus</span>
+              <span>夜 glow</span>
+              <span>placeholder</span>
+            </div>
+          </div>
+        </article>`;
+    }).join("");
+  }
 
   async function renderUsers() {
     root.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--muted);">Loading users...</div>`;

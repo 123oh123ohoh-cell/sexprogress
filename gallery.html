@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Gallery — Sex</title>
+<meta property="og:site_name" content="Sex">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://progressing.online/gallery.html">
+<meta property="og:title" content="Gallery — Sex">
+<meta property="og:description" content="An emoticoan gallery of blushy images, looping clips, and soft-focus frames.">
+<meta property="og:image" content="https://progressing.online/images/nearheader.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gallery — Sex">
+<meta name="twitter:description" content="An emoticoan gallery of blushy images, looping clips, and soft-focus frames.">
+<meta name="twitter:image" content="https://progressing.online/images/nearheader.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>(function(){try{var t=localStorage.getItem("progressTheme");var dark=(t==="dark")||(t!=="light"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(dark)document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<style>
+.gallery-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.gallery-card {
+  grid-column: span 4;
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  min-height: 240px;
+  background: linear-gradient(135deg, rgba(255, 230, 243, 0.92), rgba(255, 247, 251, 0.96));
+  border: 1px solid rgba(255, 122, 181, 0.18);
+  box-shadow: var(--shadow-soft);
+}
+.gallery-card.tall { grid-column: span 6; min-height: 320px; }
+.gallery-card.wide { grid-column: span 8; min-height: 320px; }
+.gallery-card img,
+.gallery-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gallery-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 28%, rgba(51, 0, 29, 0.28) 100%);
+  pointer-events: none;
+}
+.gallery-caption {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 1;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(51, 0, 29, 0.38);
+  color: #fff;
+  backdrop-filter: blur(10px);
+}
+.gallery-caption h2 {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+}
+.gallery-caption p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.gallery-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.gallery-pills span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255,255,255,0.18);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+@media (max-width: 920px) {
+  .gallery-card,
+  .gallery-card.tall,
+  .gallery-card.wide { grid-column: span 12; min-height: 220px; }
+}
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+<div id="modal-root"></div>
+
+<main class="gallery-shell">
+  <header class="feed-header" style="margin-top:20px;">
+    <h1><img class="header-icon" src="images/etc1.png" alt="Sex icon"> Gallery <span class="hero-emoji">🖼️💗✨</span></h1>
+    <p>A room full of emoticoan stills, looping clips, sticker art, and glossy little frames that feel soft before they feel loud.</p>
+    <p class="subline">More image-first, more motion, more kinds of pictures.</p>
+    <p class="sexy-hint">Built for slow scrolling and louder color.</p>
+  </header>
+
+  <section class="gallery-grid" aria-label="Emoticoan gallery">
+    <article class="gallery-card wide">
+      <video src="images/emoticoans/6a0c778ea2d204.73156998 - Copy.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <div class="gallery-caption">
+        <h2>Slow motion</h2>
+        <p>A long looping frame that keeps the page breathing.</p>
+        <div class="gallery-pills"><span>video</span><span>soft glow</span><span>emoticoan</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card tall">
+      <img src="images/emoticoans/12.jpg" alt="Emoticoan preview" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Soft blush</h2>
+        <p>A thumbnail that stays warm even when the feed is quiet.</p>
+        <div class="gallery-pills"><span>image</span><span>pink</span><span>preview</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card">
+      <img src="images/emoticoans/IMG_0862.png" alt="Emoticoan portrait" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Portrait frame</h2>
+        <p>A taller image that reads like a profile card with more personality.</p>
+        <div class="gallery-pills"><span>portrait</span><span>image</span><span>profile</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card tall">
+      <img src="images/emoticoans/69dfa9ffdb8a7d1ef04d28b1.jpg" alt="Emoticoan banner" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Velvet line</h2>
+        <p>A wide banner that feels plush, polished, and a little theatrical.</p>
+        <div class="gallery-pills"><span>banner</span><span>velvet</span><span>wide</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card tall">
+      <img src="images/emoticoans/69e091e3db8a7d1ef0090cd9.jpg" alt="Emoticoan still life" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Still life</h2>
+        <p>A softer still image with a different texture and a more intimate feel.</p>
+        <div class="gallery-pills"><span>still</span><span>texture</span><span>warm</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card">
+      <video src="images/emoticoans/6a05fdfaedb470.93319321 - Copy - Copy.mp4" controls muted loop playsinline preload="metadata"></video>
+      <div class="gallery-caption">
+        <h2>Looped tease</h2>
+        <p>A compact clip with enough motion to keep attention pinned.</p>
+        <div class="gallery-pills"><span>loop</span><span>clip</span><span>motion</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card">
+      <img src="images/emoticoans/26950461_020_0ca6.jpg" alt="Emoticoan sticker" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Sticker card</h2>
+        <p>A small sticker-style image that feels more playful and graphic.</p>
+        <div class="gallery-pills"><span>sticker</span><span>webp</span><span>graphic</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card wide">
+      <img src="images/emoticoans/7.jpg" alt="Emoticoan collage" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Collage spread</h2>
+        <p>A more crowded picture with a different kind of visual energy.</p>
+        <div class="gallery-pills"><span>collage</span><span>mixed</span><span>spread</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card">
+      <img src="images/emoticoans/IMG_0863.png" alt="Emoticoan avatar card" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Avatar card</h2>
+        <p>Looks like a profile picture, but sized up for the gallery wall.</p>
+        <div class="gallery-pills"><span>avatar</span><span>png</span><span>card</span></div>
+      </div>
+    </article>
+
+    <article class="gallery-card">
+      <img src="images/emoticoans/48672452_032_238a.jpg" alt="Emoticoan badge art" loading="lazy">
+      <div class="gallery-caption">
+        <h2>Creator badge</h2>
+        <p>A different visual type that breaks up the emoticoan-heavy rhythm.</p>
+        <div class="gallery-pills"><span>badge</span><span>icon</span><span>brand</span></div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+  initShell("gallery");
+</script>
+</body>
+</html>

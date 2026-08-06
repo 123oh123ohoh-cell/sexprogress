@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sex</title>
-<meta property="og:site_name" content="Sex">
+<title>Sexprogress — a sultry journal for your late-night creations</title>
+<meta property="og:site_name" content="Sexprogress">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://progressing.online/index.html">
-<meta property="og:title" content="Sex">
+<meta property="og:title" content="Sexprogress — a sultry journal for your late-night creations">
 <meta property="og:description" content="A velvet-soft, toybox-charged space for sexy ideas, rose-scented edits, and confessions that crave a second read.">
 <meta property="og:image" content="https://progressing.online/images/nearheader.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sex">
+<meta name="twitter:title" content="Sexprogress — a sultry journal for your late-night creations">
 <meta name="twitter:description" content="A velvet-soft, toybox-charged space for sexy ideas, rose-scented edits, and confessions that crave a second read.">
 <meta name="twitter:image" content="https://progressing.online/images/nearheader.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -115,13 +115,15 @@
   border: 1px solid rgba(255, 122, 181, 0.22);
   box-shadow: 0 22px 60px rgba(107, 23, 70, 0.12);
 }
+
 .home-hero::before {
   content: "";
   position: absolute;
   inset: -2px;
-  background: linear-gradient(135deg, rgba(255,255,255,.26), transparent 35%, rgba(255,255,255,.08));
+  background: linear-gradient(135deg, rgba(255,255,255,.28), transparent 35%, rgba(255,255,255,.08));
   pointer-events: none;
 }
+
 .home-hero-inner {
   position: relative;
   z-index: 1;
@@ -130,6 +132,7 @@
   gap: 18px;
   align-items: stretch;
 }
+
 .home-hero-copy h1 {
   margin: 0 0 10px;
   font-family: var(--font-display);
@@ -139,14 +142,15 @@
   line-height: .98;
   color: var(--ink);
 }
-.home-hero-copy .hero-kicker {
+
+.hero-kicker {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   margin-bottom: 12px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, .6);
+  background: rgba(255, 255, 255, .62);
   border: 1px solid rgba(255, 122, 181, .18);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -154,24 +158,28 @@
   text-transform: uppercase;
   color: var(--mocha);
 }
+
 .home-hero-copy p {
   margin: 0 0 10px;
   max-width: 52ch;
   color: var(--mocha-dark);
   font-size: 16px;
 }
-.home-hero-copy .hero-note {
+
+.hero-note {
   font-family: var(--font-display);
-  font-size: 18px;
   font-style: italic;
+  font-size: 18px;
   color: var(--mocha);
 }
+
 .home-hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
+
 .home-hero-action {
   display: inline-flex;
   align-items: center;
@@ -187,21 +195,25 @@
   background: rgba(255,255,255,.72);
   box-shadow: 0 8px 20px rgba(107, 23, 70, 0.08);
 }
+
 .home-hero-action.primary {
   background: linear-gradient(135deg, #ff4fa5, #ff2f9f 55%, #db4d93);
   color: #fff;
   border-color: transparent;
 }
+
 .home-hero-art {
   display: grid;
   grid-template-rows: 1fr auto;
   gap: 12px;
 }
+
 .home-hero-art-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
+
 .home-hero-frame {
   position: relative;
   overflow: hidden;
@@ -211,127 +223,159 @@
   border: 1px solid rgba(255, 122, 181, 0.18);
   box-shadow: 0 10px 26px rgba(107, 23, 70, 0.08);
 }
+
 .home-hero-frame img,
 .home-hero-frame video {
   width: 100%;
   height: 100%;
+  min-height: 122px;
   object-fit: cover;
   display: block;
 }
+
 .home-hero-frame .label {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
-  padding: 5px 10px;
+  left: 8px;
+  bottom: 8px;
+  z-index: 1;
+  padding: 4px 8px;
   border-radius: 999px;
+  background: rgba(51, 0, 29, 0.42);
+  color: var(--paper);
   font-family: var(--font-mono);
   font-size: 10px;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  letter-spacing: .1em;
-  background: rgba(20, 8, 15, .56);
-  color: #fff;
   backdrop-filter: blur(8px);
 }
+
 .home-hero-strip {
+  margin-top: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
+
 .home-hero-pill {
-  padding: 12px 14px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.56);
-  border: 1px solid rgba(255, 122, 181, .16);
-  box-shadow: 0 8px 18px rgba(107, 23, 70, 0.06);
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(255, 122, 181, .18);
+  border-radius: 14px;
+  padding: 10px;
+  font-size: 12px;
+  color: var(--mocha-dark);
 }
+
 .home-hero-pill strong {
   display: block;
   font-family: var(--font-display);
+  font-size: 18px;
   font-style: italic;
-  font-size: 15px;
+  line-height: 1;
   margin-bottom: 4px;
 }
-.home-hero-pill span {
-  display: block;
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.4;
+
+.feature-overlap {
+  position: relative;
+  height: 560px;
+  margin: 6px 0 24px;
 }
 
-.feed-header {
-  display: grid;
-  gap: 10px;
-  margin-top: 6px;
-  margin-bottom: 14px;
-  padding-bottom: 4px;
-}
-.feed-header h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(28px, 6vw, 42px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-}
-.feed-header p {
-  margin: 0;
-  max-width: 62ch;
-}
-.feed-header .subline {
-  color: var(--mocha);
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-style: italic;
-}
-.feed-header .sexy-hint {
-  padding-left: 14px;
-  border-left: 2px solid rgba(255, 47, 159, .28);
-  color: var(--muted);
-}
-
-.feed-tabs {
-  background: rgba(255,255,255,.55);
-  border: 1px solid rgba(255, 122, 181, .16);
-  box-shadow: 0 10px 24px rgba(107, 23, 70, 0.06);
-  backdrop-filter: blur(8px);
-}
-.feed-tab-btn.active {
-  background: linear-gradient(135deg, #ff4fa5, #ff2f9f);
-  color: #fff;
-}
-
-.entry {
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 122, 181, .18);
-  box-shadow: 0 14px 36px rgba(107, 23, 70, 0.08);
-}
-.entry-body {
-  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,247,251,.98));
-}
-.entry-title .underline {
-  background-image: linear-gradient(transparent 72%, rgba(255, 87, 164, .26) 0);
-}
-.entry-meta {
-  color: var(--mocha);
-}
-.entry-excerpt {
-  color: var(--mocha-dark);
-}
-.entry-thumb {
-  border-radius: 0;
-  border-left: 1px solid rgba(255, 122, 181, .16);
-}
-.entry-thumb img,
-.entry-thumb video {
+.feature-overlap-stage {
+  position: relative;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+}
+
+.feature-overlap-card {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #1f0f1a;
+  border: 1px solid rgba(255, 122, 181, 0.24);
+  box-shadow: 0 20px 42px rgba(107, 23, 70, 0.18);
+}
+
+.feature-overlap-card.has-blur-bg::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  background-image: var(--card-bg);
+  background-position: center;
+  background-size: cover;
+  filter: blur(16px) saturate(1.12);
+  transform: scale(1.08);
+  opacity: 0.72;
+}
+
+.feature-overlap-card img,
+.feature-overlap-card video {
+  width: 100%;
+  height: 100%;
   display: block;
+  object-fit: cover;
+}
+
+.feature-overlap-card.has-blur-bg img {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+  object-position: center;
+}
+
+.feature-overlap-card.card-a {
+  top: -8px;
+  left: 2%;
+  width: 40%;
+  height: 440px;
+  transform: rotate(-3deg);
+  z-index: 1;
+}
+
+.feature-overlap-card.card-b {
+  top: 0;
+  left: 28%;
+  width: 41%;
+  height: 500px;
+  transform: rotate(1.5deg);
+  z-index: 3;
+}
+
+.feature-overlap-card.card-c {
+  top: 18px;
+  right: 4%;
+  width: 34%;
+  height: 410px;
+  transform: rotate(4deg);
+  z-index: 2;
+}
+
+.feature-overlap-card.card-d {
+  bottom: 4px;
+  left: 50%;
+  width: 40%;
+  height: 350px;
+  transform: translateX(-50%) rotate(-1deg);
+  z-index: 4;
+}
+
+@media (max-width: 900px) {
+  .home-hero-inner { grid-template-columns: 1fr; }
+
+  .feature-overlap { height: 520px; }
+  .feature-overlap-card.card-a { width: 48%; height: 420px; }
+  .feature-overlap-card.card-b { left: 30%; width: 44%; height: 470px; }
+  .feature-overlap-card.card-c { width: 40%; height: 360px; }
+  .feature-overlap-card.card-d { width: 46%; height: 310px; }
 }
 
 @media (max-width: 720px) {
+  .feature-overlap { height: 460px; margin: 6px 0 18px; }
+  .feature-overlap-stage { height: 100%; }
+  .feature-overlap-card.card-a { top: -8px; left: -2%; width: 58%; height: 320px; transform: rotate(-4deg); }
+  .feature-overlap-card.card-b { top: -2px; left: 35%; width: 58%; height: 350px; transform: rotate(2deg); }
+  .feature-overlap-card.card-c { top: 46px; right: -2%; width: 52%; height: 280px; transform: rotate(5deg); }
+  .feature-overlap-card.card-d { bottom: -4px; left: 50%; width: 60%; height: 240px; transform: translateX(-50%) rotate(-1deg); }
+
   .home-hero-inner { grid-template-columns: 1fr; }
   .home-hero-strip { grid-template-columns: 1fr; }
   .home-hero-art-grid { grid-template-columns: 1fr 1fr; }
@@ -344,6 +388,23 @@
 <div id="modal-root"></div>
 
 <main class="container">
+  <section class="feature-overlap">
+    <div class="feature-overlap-stage">
+      <article class="feature-overlap-card card-a has-blur-bg" style="--card-bg: url('images/emoticoans/(m=q18T2ZXbeaSaaTbaAaaaa)(mh=zJMuchy9Z1JP4GC7)0.jpg');">
+        <img src="images/emoticoans/(m=q18T2ZXbeaSaaTbaAaaaa)(mh=zJMuchy9Z1JP4GC7)0.jpg" alt="" loading="lazy">
+      </article>
+      <article class="feature-overlap-card card-b">
+        <video src="images/emoticoans/6a0c778ea2d204.73156998.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      </article>
+      <article class="feature-overlap-card card-c has-blur-bg" style="--card-bg: url('images/emoticoans/rs_fit_1280_720.avif');">
+        <img src="images/emoticoans/rs_fit_1280_720.avif" alt="" loading="lazy">
+      </article>
+      <article class="feature-overlap-card card-d">
+        <video src="images/emoticoans/6a05fdfaedb470.93319321.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      </article>
+    </div>
+  </section>
+
   <section class="home-hero">
     <div class="home-hero-inner">
       <div class="home-hero-copy">
@@ -359,10 +420,10 @@
       </div>
       <div class="home-hero-art">
         <div class="home-hero-art-grid">
-          <div class="home-hero-frame"><img src="images/emoticoans/preview.jpg" alt="Emoticoans cover preview"><div class="label">Soft blush</div></div>
-          <div class="home-hero-frame"><video src="images/emoticoans/6a0c778ea2d204.73156998.mp4" autoplay muted loop playsinline preload="metadata"></video><div class="label">Slow motion</div></div>
-          <div class="home-hero-frame"><img src="images/emoticoans/rs_fit_1280_720.avif" alt="Emoticoans banner"><div class="label">Velvet line</div></div>
-          <div class="home-hero-frame"><video src="images/emoticoans/6a05fdfaedb470.93319321.mp4" controls muted loop playsinline preload="metadata"></video><div class="label">Looped tease</div></div>
+          <div class="home-hero-frame"><img src="images/emoticoans/12.jpg" alt=""><div class="label">Soft blush</div></div>
+          <div class="home-hero-frame"><video src="images/emoticoans/6a0c778ea2d204.73156998 - Copy.mp4" autoplay muted loop playsinline preload="metadata"></video><div class="label">Slow motion</div></div>
+          <div class="home-hero-frame"><img src="images/emoticoans/69dfa9ffdb8a7d1ef04d28b1.jpg" alt=""><div class="label">Velvet line</div></div>
+          <div class="home-hero-frame"><video src="images/emoticoans/6a05fdfaedb470.93319321 - Copy.mp4" controls muted loop playsinline preload="metadata"></video><div class="label">Looped tease</div></div>
         </div>
         <div class="home-hero-strip">
           <div class="home-hero-pill"><strong>Gloss</strong><span>Sharper contrast, warmer shadows, stronger glow.</span></div>
@@ -374,10 +435,10 @@
   </section>
 
   <header class="feed-header">
-    <h1><img class="header-icon" src="images/etc1.png" alt="Sex icon"> Sex <span class="hero-emoji">💗🍒✨</span></h1>
-    <p>Whisper your ideas into a feed that looks polished, plush, and a little dangerous.</p>
-    <p class="subline">Every entry gets the spotlight, the blush, and the kind of styling that makes it feel worth reading twice.</p>
-    <p class="sexy-hint">Soft shadows. Glossy cards. Bright emoticon artwork. A little more heat without losing the elegance.</p>
+    <h1><img class="header-icon" src="images/etc1.png" alt="Sexprogress icon"> Sexprogress <span class="hero-emoji">💋�🍒💗🍭</span></h1>
+    <p>Whisper your deepest ideas, feather-light fixes, and sensual progress in a page that feels like a rose-petal secret and a toybox tease.</p>
+    <p class="subline">A velvet-bound diary for pulse-racing momentum, intimate experiments, and glittering after-dark curiosity.</p>
+    <p class="sexy-hint">Heart-shaped hues, rose-flushed glow, and every entry written to be stroked again.</p>
   </header>
 
   <!-- Category tabs — only rendered when the feature is enabled in settings -->

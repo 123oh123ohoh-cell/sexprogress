@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Lounge — Sex</title>
+<meta property="og:site_name" content="Sex">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://progressing.online/lounge.html">
+<meta property="og:title" content="Lounge — Sex">
+<meta property="og:description" content="A soft-focus lounge of placeholder communities and emoticoan avatars.">
+<meta property="og:image" content="https://progressing.online/images/nearheader.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lounge — Sex">
+<meta name="twitter:description" content="A soft-focus lounge of placeholder communities and emoticoan avatars.">
+<meta name="twitter:image" content="https://progressing.online/images/nearheader.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>(function(){try{var t=localStorage.getItem("progressTheme");var dark=(t==="dark")||(t!=="light"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(dark)document.documentElement.setAttribute("data-theme","dark");}catch(e){}})();</script>
+<style>
+.lounge-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px 44px;
+}
+.lounge-layout {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+.lounge-panel {
+  border-radius: 28px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,237,247,.98));
+  border: 1px solid rgba(255, 122, 181, 0.18);
+  box-shadow: var(--shadow-soft);
+}
+.lounge-panel h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 26px;
+}
+.lounge-panel p {
+  margin: 0;
+  color: var(--mocha-dark);
+}
+.lounge-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+.lounge-card {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: 14px;
+  padding: 12px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(255, 247, 251, 0.96), rgba(255, 227, 241, 0.92));
+  border: 1px solid rgba(255, 122, 181, 0.16);
+}
+.lounge-media {
+  overflow: hidden;
+  border-radius: 18px;
+  min-height: 108px;
+  background: rgba(255, 132, 216, 0.12);
+}
+.lounge-media img,
+.lounge-media video {
+  width: 100%;
+  height: 100%;
+  min-height: 108px;
+  object-fit: cover;
+  display: block;
+}
+.lounge-name {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.lounge-name h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 21px;
+}
+.lounge-name span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.lounge-copy {
+  min-width: 0;
+}
+.lounge-copy p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.lounge-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.lounge-tags span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 122, 181, 0.12);
+  color: var(--mocha);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.lounge-side {
+  display: grid;
+  gap: 14px;
+}
+.lounge-feature {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  min-height: 250px;
+  background: linear-gradient(135deg, rgba(255, 230, 243, 0.95), rgba(255, 247, 251, 0.92));
+}
+.lounge-feature img,
+.lounge-feature video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.lounge-feature .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  background: linear-gradient(180deg, transparent 28%, rgba(51, 0, 29, 0.32) 100%);
+}
+.lounge-feature .overlay div {
+  color: #fff;
+  max-width: 28ch;
+}
+.lounge-feature .overlay h2 {
+  margin: 0 0 5px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 28px;
+}
+.lounge-feature .overlay p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+@media (max-width: 920px) {
+  .lounge-layout { grid-template-columns: 1fr; }
+  .lounge-card { grid-template-columns: 92px minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+<div id="modal-root"></div>
+
+<main class="lounge-shell">
+  <header class="feed-header" style="margin-top:20px;">
+    <h1><img class="header-icon" src="images/etc1.png" alt="Sex icon"> Lounge <span class="hero-emoji">🛋️💗✨</span></h1>
+    <p>Suggested community spaces with soft names, emoticoan avatars, picture badges, and a little extra after-dark polish.</p>
+    <p class="subline">Built like a waiting room for the prettiest conversations, with different kinds of visuals in every room.</p>
+    <p class="sexy-hint">All glow, no hard edges.</p>
+  </header>
+
+  <section class="lounge-layout">
+    <div class="lounge-panel">
+      <h2>Fake communities</h2>
+      <p>Placeholder rooms for vibe-first browsing, so the site feels more alive before anyone even posts.</p>
+      <div class="lounge-list">
+        <article class="lounge-card">
+          <div class="lounge-media"><img src="images/emoticoans/69ded0b5db8a7d1ef0aaeb4f.jpg" alt="Velvet Night avatar" loading="lazy"></div>
+          <div class="lounge-copy">
+            <div class="lounge-name"><h3>Velvet Night</h3><span>1.2k members</span></div>
+            <p>Soft replies, late scrolls, and a glowing little feed for the after-dark crowd.</p>
+            <div class="lounge-tags"><span>soft-focus</span><span>night mode</span><span>placeholder</span></div>
+          </div>
+        </article>
+        <article class="lounge-card">
+          <div class="lounge-media"><img src="images/emoticoans/69eb39517d96736a34b337ba.jpg" alt="Pink Static avatar" loading="lazy"></div>
+          <div class="lounge-copy">
+            <div class="lounge-name"><h3>Pink Static</h3><span>842 members</span></div>
+            <p>For glossy little updates, vivid images, and the kind of attention that lingers.</p>
+            <div class="lounge-tags"><span>pink</span><span>portrait</span><span>circle</span></div>
+          </div>
+        </article>
+        <article class="lounge-card">
+          <div class="lounge-media"><img src="images/emoticoans/69e9649f7d96736a341dbffc.jpg" alt="Moonlit Room avatar" loading="lazy"></div>
+          <div class="lounge-copy">
+            <div class="lounge-name"><h3>Moonlit Room</h3><span>3.4k members</span></div>
+            <p>A quieter corner with a polished glow and enough atmosphere to feel intimate.</p>
+            <div class="lounge-tags"><span>moonlit</span><span>banner</span><span>room</span></div>
+          </div>
+        </article>
+        <article class="lounge-card">
+          <div class="lounge-media"><img src="images/emoticoans/69e8c2c0f453f2f497b436d5.jpg" alt="Afterglow Circle avatar" loading="lazy"></div>
+          <div class="lounge-copy">
+            <div class="lounge-name"><h3>Afterglow Circle</h3><span>629 members</span></div>
+            <p>Warm-toned placeholder space for soft confessions, subtle jokes, and slow replies.</p>
+            <div class="lounge-tags"><span>afterglow</span><span>soft chat</span><span>still</span></div>
+          </div>
+        </article>
+        <article class="lounge-card">
+          <div class="lounge-media"><img src="images/emoticoans/69fce1c5dbc4d7.64234787.jpg" alt="Emoji atlas" loading="lazy"></div>
+          <div class="lounge-copy">
+            <div class="lounge-name"><h3>Emoji Atlas</h3><span>981 members</span></div>
+            <p>A room for sticker-y visual posts, tiny reactions, and more graphic-looking picture types.</p>
+            <div class="lounge-tags"><span>emoji</span><span>atlas</span><span>sticker</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <aside class="lounge-side">
+      <article class="lounge-feature">
+        <video src="images/emoticoans/6a0c778ea2d204.73156998 - Copy.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <div class="overlay">
+          <div>
+            <h2>Room glow</h2>
+            <p>One looping clip to keep the sidebar alive while the rest of the page stays calm.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lounge-feature">
+        <img src="images/emoticoans/69fce1c5dbc4d7.64234787.jpg" alt="Emoticoan preview" loading="lazy">
+        <div class="overlay">
+          <div>
+            <h2>Preview tile</h2>
+            <p>Soft blush, warm light, and a kind of visual whisper that fits the rest of the site.</p>
+          </div>
+        </div>
+      </article>
+      <article class="lounge-feature">
+        <img src="images/emoticoans/(m=q18T2ZXbeaSaaTbaAaaaa)(mh=zJMuchy9Z1JP4GC7)0.jpg" alt="404 page art" loading="lazy">
+        <div class="overlay">
+          <div>
+            <h2>Error poster</h2>
+            <p>A different kind of picture to keep the lounge from feeling too repetitive.</p>
+          </div>
+        </div>
+      </article>
+    </aside>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+  initShell("lounge");
+</script>
+</body>
+</html>

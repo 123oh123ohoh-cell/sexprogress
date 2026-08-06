@@ -654,86 +654,51 @@ async function localApiFetch(path, options = {}) {
 const SEED = {
   currentUser: null, // null = logged out
   users: [
-    { id: "u1", username: "mara", name: "Mara Studios", password: "demo1234", avatar: "images/emoticoans/romantic.png", joined: "2026-02-01", timezone: DEFAULT_TIMEZONE, following: [], followers: [], bio: "Soft-lit, blush-forward, and happiest when the page feels warm enough to linger over. I like slow reveals, pink shadows, and a little tension in the margins.", badges: ["dexterity"] }
+    { id: "u1", username: "mara", name: "Mara Studios", password: "demo1234", avatar: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=200&auto=format&fit=crop", joined: "2026-02-01", timezone: DEFAULT_TIMEZONE, following: [], followers: [], bio: "", badges: ["dexterity"] }
   ],
   posts: [
     {
       id: "p1",
       author: "mara",
-      title: "Velvet pacing, on purpose",
+      title: "Velvet drafts after midnight",
       date: "2026-06-28",
-      cover: "images/emoticoans/preview.jpg",
-      excerpt: "A slower rhythm made the whole page feel hotter, softer, and easier to lean into.",
-      content: "<p>I used to treat progress like a race. This month I let it drape over the page instead.</p><p>When I stopped forcing momentum, the work started to feel more intimate. Each decision had a little more pause, a little more polish, and a lot less panic.</p><h2>What changed</h2><p>I left one quiet hour open every week. Not for admin, not for cleanup &mdash; just enough room for a thought to blush before I rushed to answer it.</p><blockquote>Sometimes the most seductive move is the one that waits an extra breath.</blockquote><p>That tiny delay changed everything. The backlog is still there, but the choices feel smoother now, like they were meant to be read under a softer light.</p>",
+      cover: "images/emoticoans/6a05fdfaedb470.93319321.mp4",
+      excerpt: "I stopped rushing the words and started letting the page glow first. That one shift made every idea feel more dangerous in the best way.",
+      content: "<p>I stopped rushing the words and started letting the page glow first. That one shift made every idea feel more dangerous in the best way.</p><p>I open the draft, dim everything around me, and let the first paragraph arrive slowly. The visual mood does half the work: soft light, warm contrast, and just enough tension to keep me typing.</p><p>The favorite banner shot stays at the top while I edit, like a cue to keep the rhythm slower and more intentional. I trim hard phrases, keep the teasing ones, and let the post breathe before publish.</p><blockquote>When the atmosphere is right, the sentence lands deeper.</blockquote><p>Result: fewer throwaway updates, more entries that actually feel like they belong to this space.</p>",
       likes: 12,
       likedBy: []
     },
     {
       id: "p2",
       author: "mara",
-      title: "A table with a little heat in it",
+      title: "The vertical frame changed the whole vibe",
       date: "2026-06-14",
-      cover: "images/emoticoans/rs_fit_1280_720.avif",
-      excerpt: "Old paint, warm wood, and a finish that looked almost too pretty to touch.",
-      content: "<p>The old door had six coats of paint on it. Underneath was oak with a glow that felt almost secret.</p><p>Stripping it took longer than building the frame. That kind of slow reveal has its own charm &mdash; the kind that keeps you looking a little longer than you meant to.</p><h2>The joints</h2><p>I used simple lap joints instead of anything dramatic. There is something delicious about a thing being sturdy and beautiful without trying too hard.</p><p>It wobbled for exactly one afternoon before I found the short leg. Now it sits there with a very composed little confidence.</p>",
+      cover: "images/emoticoans/(m=q18T2ZXbeaSaaTbaAaaaa)(mh=zJMuchy9Z1JP4GC7)0.jpg",
+      excerpt: "Keeping the vertical image fully visible made the page feel less generic and way more intimate.",
+      content: "<p>Keeping the vertical image fully visible made the page feel less generic and way more intimate.</p><p>When it was cropped, the mood got flattened. Once I let the full frame show, the post finally had posture &mdash; taller, softer, and a little more suggestive without saying too much.</p><h2>What I kept</h2><p>I kept the center alignment and gave it room to breathe. No loud overlays, no forced text on top, just a clean frame with enough contrast to hold attention.</p><p>That one adjustment made the entire feed read like a curated set, not a pile of random cards.</p>",
       likes: 27,
       likedBy: []
     },
     {
       id: "p3",
       author: "mara",
-      title: "Handwritten drafts and a softer blush",
+      title: "Warm stills, slow loops, and better posts",
       date: "2026-05-30",
-      cover: "images/emoticoans/12.jpg",
-      excerpt: "Writing by hand made every sentence feel a little more tender, a little less rushed.",
-      content: "<p>No backspace key for seven days and suddenly every sentence mattered more.</p><p>On a screen, a clumsy line disappears before it can embarrass you. On paper, it lingers just enough to make you slow down, smooth your edges, and choose the next line with a little more care.</p><p>That pause was the whole point. The drafts got softer, the tone got warmer, and I found myself writing like I wanted the page to blush back.</p>",
-      likes: 8,
-      likedBy: []
-    },
-    {
-      id: "p4",
-      author: "mara",
-      title: "A loop with a warmer pulse",
-      date: "2026-07-25",
       cover: "images/emoticoans/6a0c778ea2d204.73156998.mp4",
-      excerpt: "A moving cover gave the page a little extra pulse and a lot more allure.",
-      content: "<p>This started as a motion test and ended up feeling like a flirtatious little entrance.</p><p>I wanted the front of the journal to breathe instead of sit there politely, so I kept the loop tight and let the movement do the teasing.</p><p>The result is simple: a bit of glow, a bit of rhythm, and a page that feels more awake the moment it opens.</p>",
-      likes: 5,
-      likedBy: []
-    },
-    {
-      id: "p5",
-      author: "mara",
-      title: "A second cut for the same late-night thought",
-      date: "2026-07-18",
-      cover: "images/emoticoans/6a05fdfaedb470.93319321.mp4",
-      excerpt: "Different loop, same soft-focus energy, just a little more flirty around the edges.",
-      content: "<p>Some edits only make sense once you hear them back a few times, like a line delivered with the right pause.</p><p>This is the quieter pass: less polish, more atmosphere, and enough movement to keep the page feeling warm instead of flat.</p><p>It is the kind of clip that stays in the background and still manages to change the whole room.</p>",
-      likes: 9,
-      likedBy: []
-    },
-    {
-      id: "p6",
-      author: "mara",
-      title: "The archive after dark",
-      date: "2026-07-11",
-      cover: "images/emoticoans/6a05fdfaedb470.93319321 - Copy.mp4",
-      excerpt: "I kept one more video because the still frame was too polite to carry the mood.",
-      content: "<p>There is always one version that looks finished before it really feels finished.</p><p>Then a different clip shows up and makes the whole stack feel softer, stranger, and a little more magnetic.</p><p>That is what this copy is for: a quieter echo that still deserves the front of the page.</p>",
-      likes: 3,
+      excerpt: "The warm still became my anchor image, and the loop became the pulse. Together they gave the writing a cleaner, sexier rhythm.",
+      content: "<p>The warm still became my anchor image, and the loop became the pulse. Together they gave the writing a cleaner, sexier rhythm.</p><p>Now every post starts from a visual pairing: one image that feels plush and one motion clip that keeps subtle momentum. I write to that tempo instead of fighting it.</p><p>The voice got less stiff right away. Shorter lines. Better pauses. More confidence in the final paragraph.</p><blockquote>The look of a page can coach the tone of a sentence.</blockquote><p>I still edit hard. I just do it in a layout that actually matches the feeling I want the post to carry.</p>",
+      likes: 8,
       likedBy: []
     }
   ],
   comments: [],
   notifications: [
-    { id: "n1", type: "like", actor: "jonah_p", postId: "p2", postTitle: "A table with a little heat in it", time: "2026-07-04T09:12:00", seen: false },
-    { id: "n2", type: "reply", actor: "wren.codes", postId: "p1", postTitle: "Velvet pacing, on purpose", body: "This is exactly the permission I needed to hear today.", time: "2026-07-03T21:40:00", seen: false },
-    { id: "n3", type: "like", actor: "delia", postId: "p1", postTitle: "Velvet pacing, on purpose", time: "2026-07-02T14:05:00", seen: false },
+    { id: "n1", type: "like", actor: "jonah_p", postId: "p2", postTitle: "The vertical frame changed the whole vibe", time: "2026-07-04T09:12:00", seen: false },
+    { id: "n2", type: "reply", actor: "wren.codes", postId: "p1", postTitle: "Velvet drafts after midnight", body: "This is exactly the permission I needed to hear today.", time: "2026-07-03T21:40:00", seen: false },
+    { id: "n3", type: "like", actor: "delia", postId: "p1", postTitle: "Velvet drafts after midnight", time: "2026-07-02T14:05:00", seen: false },
     { id: "n4", type: "follow", actor: "sam_writes", time: "2026-06-30T08:00:00", seen: true }
   ]
 };
-
-const SEED_POST_INDEX = new Map(SEED.posts.map(post => [post.id, post]));
 
 function loadDB() {
   let raw = null;
@@ -765,18 +730,6 @@ function loadDB() {
       if (!existingMap.has(seedUser.username) || !existingMap.get(seedUser.username).password) {
         // Either user doesn't exist or is corrupted (missing password), so use seed data
         existingMap.set(seedUser.username, { ...seedUser });
-      } else if (seedUser.username === "mara") {
-        // Keep Mara's seeded persona/picture consistent even if an older
-        // local copy is already stored in the browser.
-        const current = existingMap.get(seedUser.username);
-        existingMap.set(seedUser.username, {
-          ...current,
-          name: seedUser.name,
-          avatar: seedUser.avatar,
-          bio: seedUser.bio,
-          timezone: current.timezone || seedUser.timezone,
-          badges: current.badges || seedUser.badges
-        });
       }
     }
     
@@ -791,8 +744,24 @@ function loadDB() {
       followers: u.followers || [],
       bio: u.bio || ""
     }));
-    parsed.posts = (parsed.posts || []).filter(post => !SEED_POST_INDEX.has(post.id));
-    parsed.posts = [...SEED.posts.map(post => ({ ...post })), ...parsed.posts];
+    parsed.posts = parsed.posts || [];
+    const seedPostsById = new Map((SEED.posts || []).map(post => [post.id, post]));
+    parsed.posts = parsed.posts.map(post => {
+      const seeded = seedPostsById.get(post.id);
+      if (!seeded) return post;
+      return {
+        ...post,
+        author: seeded.author,
+        title: seeded.title,
+        cover: seeded.cover,
+        excerpt: seeded.excerpt,
+        content: seeded.content
+      };
+    });
+    const existingPostIds = new Set(parsed.posts.map(post => post.id));
+    for (const seededPost of SEED.posts || []) {
+      if (!existingPostIds.has(seededPost.id)) parsed.posts.push({ ...seededPost });
+    }
     parsed.notifications = parsed.notifications || [];
     parsed.comments = parsed.comments || [];
     parsed.currentUser = parsed.currentUser || null;

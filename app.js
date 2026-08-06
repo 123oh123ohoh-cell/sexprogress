@@ -145,6 +145,29 @@ function escapeHTML(str) {
   return div.innerHTML;
 }
 
+function isVideoCoverUrl(url) {
+  if (!url || typeof url !== "string") return false;
+  const clean = url.split("?")[0].split("#")[0].toLowerCase();
+  return /\.(mp4|webm|ogg|mov|m4v)$/i.test(clean);
+}
+
+function renderCoverMedia(url, options = {}) {
+  if (!url) return "";
+  const className = options.className ? ` class="${options.className}"` : "";
+  const alt = options.alt || "";
+  const loading = options.loading ? ` loading="${options.loading}"` : "";
+  if (!isVideoCoverUrl(url)) {
+    return `<img${className} src="${url}" alt="${escapeHTML(alt)}"${loading}>`;
+  }
+  const autoplay = options.videoAutoplay ? " autoplay" : "";
+  const muted = options.videoMuted ? " muted" : "";
+  const loop = options.videoLoop ? " loop" : "";
+  const controls = options.videoControls ? " controls" : "";
+  const playsinline = options.videoPlaysInline ? " playsinline" : "";
+  const preload = options.videoPreload || "metadata";
+  return `<video${className} src="${url}"${autoplay}${muted}${loop}${controls}${playsinline} preload="${preload}"${loading}></video>`;
+}
+
 const SPOTIFY_EMBED_TYPES = new Set(["track", "album", "playlist", "artist", "episode", "show"]);
 const SPOTIFY_EMBED_HEIGHTS = { track: 152, episode: 232, show: 232, album: 352, playlist: 352, artist: 352 };
 
@@ -495,45 +518,6 @@ function renderEmoticonsText(text, cssClass = "inline-emoticon") {
   return renderEmoticonsInHTML(escapeHTML(text || ""), cssClass);
 }
 
-function isVideoAsset(src) {
-  if (!src || typeof src !== "string") return false;
-  const clean = src.split(/[?#]/)[0];
-  return /\.(mp4|webm|mov|mkv|avi|wmv|ogv)$/i.test(clean);
-}
-
-function renderCoverMedia(src, options = {}) {
-  if (!src) return "";
-  const {
-    className = "cover-media",
-    alt = "",
-    videoControls = false,
-    videoAutoplay = false,
-    videoMuted = true,
-    videoLoop = true,
-    videoPlaysInline = true,
-    loading = "lazy"
-  } = options;
-
-  const safeSrc = escapeHTML(encodeURI(src));
-  const safeAlt = escapeHTML(alt || "");
-
-  if (isVideoAsset(src)) {
-    const attrs = [
-      `class="${className}"`,
-      `src="${safeSrc}"`,
-      videoControls ? "controls" : "",
-      videoAutoplay ? "autoplay" : "",
-      videoMuted ? "muted" : "",
-      videoLoop ? "loop" : "",
-      videoPlaysInline ? "playsinline" : "",
-      "preload=\"metadata\""
-    ].filter(Boolean).join(" ");
-    return `<video ${attrs}></video>`;
-  }
-
-  return `<img class="${className}" src="${safeSrc}" alt="${safeAlt}" loading="${loading}">`;
-}
-
 function renderMentionsInHTML(html, cssClass = "mention-link") {
   if (!html) return "";
 
@@ -611,11 +595,12 @@ function renderNav(activePage) {
   root.innerHTML = `
     <nav class="nav">
       <a href="index.html" class="nav-title">
-        <span class="nav-logo-text">Sex</span>
+        <span class="nav-logo-text">progress<span class="dot">.</span></span>
         <img class="nav-logo-image" src="images/nearheader.png" alt="" loading="lazy">
       </a>
-      <span class="nav-glow-chip" aria-hidden="true">夜 mode</span>
       <div class="nav-right">
+        <a href="gallery.html" class="nav-new">gallery</a>
+        <a href="lounge.html" class="nav-new">lounge</a>
         <a href="chat.html" class="nav-new nav-chat-link">chat</a>
         ${user ? `<a href="write.html" class="nav-new">+ new entry</a>` : ""}
         <div class="bell-wrap">
@@ -658,6 +643,11 @@ function renderNav(activePage) {
         <span>Me</span>
       </a>
     </nav>
+    <div class="milk-final-overlay" aria-hidden="true">
+      <img src="images/emoticoans/final.jpg" alt="">
+    </div>
+    <button class="milk-outside-btn" id="milkOutsideBtn" type="button" aria-label="Milk confetti">milk</button>
+    <div class="milk-confetti-layer" id="milkConfettiLayer" aria-hidden="true"></div>
   `;
 
   renderNotifDropdown();
@@ -666,6 +656,107 @@ function renderNav(activePage) {
   // Chat page clears the badge; every other page just shows whatever's stored
   if (activePage === "chat") setDmUnread(0);
   else updateChatNavBadge();
+  wireMilkConfettiButton();
+}
+
+function wireMilkConfettiButton() {
+  const btn = document.getElementById("milkOutsideBtn");
+  const layer = document.getElementById("milkConfettiLayer");
+  const finalOverlay = document.querySelector(".milk-final-overlay");
+  if (!btn || !layer) return;
+
+  function spawnBurst(x, y) {
+    const fragments = 92;
+    for (let i = 0; i < fragments; i++) {
+      const drop = document.createElement("i");
+      drop.className = "milk-drop";
+      const angle = (Math.PI * 2 * i) / fragments + (Math.random() * 0.35 - 0.175);
+      const speed = 110 + Math.random() * 300;
+      const dx = Math.cos(angle) * speed;
+      const dy = Math.sin(angle) * speed + 120;
+      const size = 5 + Math.random() * 10;
+      const delay = Math.random() * 120;
+      const duration = 1100 + Math.random() * 1100;
+
+      drop.style.left = `${x}px`;
+      drop.style.top = `${y}px`;
+      drop.style.width = `${size}px`;
+      drop.style.height = `${size * (0.85 + Math.random() * 0.9)}px`;
+      drop.style.setProperty("--dx", `${dx}px`);
+      drop.style.setProperty("--dy", `${dy}px`);
+      drop.style.animationDelay = `${delay}ms`;
+      drop.style.animationDuration = `${duration}ms`;
+      drop.style.opacity = String(0.68 + Math.random() * 0.32);
+      layer.appendChild(drop);
+    }
+  }
+
+  function spawnSpoiledMilk(vw, vh) {
+    const splats = 150;
+    for (let i = 0; i < splats; i++) {
+      const splat = document.createElement("i");
+      splat.className = Math.random() < 0.35 ? "milk-splat heavy" : "milk-splat";
+      const x = Math.random() * vw;
+      const y = Math.random() * vh;
+      const w = 12 + Math.random() * 34;
+      const h = 8 + Math.random() * 20;
+      const delay = Math.random() * 620;
+      const duration = 1800 + Math.random() * 1800;
+
+      splat.style.left = `${x}px`;
+      splat.style.top = `${y}px`;
+      splat.style.width = `${w}px`;
+      splat.style.height = `${h}px`;
+      splat.style.animationDelay = `${delay}ms`;
+      splat.style.animationDuration = `${duration}ms`;
+      splat.style.opacity = String(0.28 + Math.random() * 0.55);
+      layer.appendChild(splat);
+    }
+  }
+
+  btn.onclick = () => {
+    layer.innerHTML = "";
+    if (finalOverlay) {
+      finalOverlay.classList.remove("is-active");
+      // Force reflow so repeated clicks restart the fade animation.
+      void finalOverlay.offsetWidth;
+      finalOverlay.classList.add("is-active");
+    }
+    const rect = btn.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const originX = rect.left + rect.width / 2;
+    const originY = rect.top + rect.height / 2;
+    const rockets = 6;
+
+    for (let i = 0; i < rockets; i++) {
+      const rocket = document.createElement("i");
+      rocket.className = "milk-rocket";
+      const tx = (Math.random() - 0.5) * 180;
+      const ty = -(220 + Math.random() * 210);
+      const delay = i * 90;
+
+      rocket.style.left = `${originX}px`;
+      rocket.style.top = `${originY}px`;
+      rocket.style.setProperty("--tx", `${tx}px`);
+      rocket.style.setProperty("--ty", `${ty}px`);
+      rocket.style.animationDelay = `${delay}ms`;
+      layer.appendChild(rocket);
+
+      window.setTimeout(() => {
+        spawnBurst(originX + tx, originY + ty);
+      }, delay + 520);
+    }
+
+    window.setTimeout(() => { spawnSpoiledMilk(vw, vh); }, 700);
+    window.setTimeout(() => { spawnSpoiledMilk(vw, vh); }, 1300);
+    window.setTimeout(() => { layer.innerHTML = ""; }, 5800);
+    if (finalOverlay) {
+      window.setTimeout(() => {
+        finalOverlay.classList.remove("is-active");
+      }, 3600);
+    }
+  };
 }
 
 function renderNotifDropdown() {
@@ -1507,7 +1598,7 @@ function _showSplash() {
   el.innerHTML =
     '<div class="pwa-splash-inner">' +
       '<img src="/images/nearheader.png" class="pwa-splash-logo" alt="">' +
-      '<div class="pwa-splash-word">Sex</div>' +
+      '<div class="pwa-splash-word">progress<span class="pwa-splash-dot">.</span></div>' +
     '</div>';
   document.body.appendChild(el);
   const hide = () => { el.classList.add("pwa-splash-hide"); setTimeout(() => el.remove(), 400); };
